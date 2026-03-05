@@ -58,6 +58,27 @@ function updateDate() {
 function saveData() {
     localStorage.setItem('financialData', JSON.stringify(financialData));
     renderPage();
+
+    // Sincronização em Background com a Nuvem (Dashboard -> Vercel KV)
+    syncWithCloud();
+}
+
+async function syncWithCloud() {
+    // Pegar apenas os produtos que têm configurações (importados)
+    const productsToSync = financialData.importedProducts || [];
+
+    try {
+        await fetch('/api/products/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ products: productsToSync })
+        });
+        console.log('Dados sincronizados com a nuvem.');
+    } catch (err) {
+        console.warn('Falha na sincronização cloud (Offline ou falta de KV):', err);
+    }
 }
 
 // Navigation Logic
