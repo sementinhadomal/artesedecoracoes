@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Artes e Decorações</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/dashboard-financeiro/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -97,7 +97,7 @@
 <body>
     <div class="login-container">
         <div class="glass-card login-card">
-            <img src="img/logo.png" alt="Artes e Decorações Logo">
+            <img src="/img/logo.png" alt="Artes e Decorações Logo">
             <h2>Área Administrativa</h2>
             <form id="login-form">
                 <div class="form-group">
@@ -131,7 +131,7 @@
             // VERIFICAÇÃO GARANTIDA: Se bater com seus dados, entra direto!
             if (trimmedEmail === 'artesedecoracoes@uol.com.br' && trimmedPass === 'naty47982040') {
                 document.cookie = "auth_token=super_user_access; path=/; max-age=28800";
-                window.location.href = 'index.html';
+                window.location.href = '/dashboard-financeiro/index.html';
                 return;
             }
 
@@ -143,7 +143,7 @@
                 });
 
                 if (response.ok) {
-                    window.location.href = 'index.html';
+                    window.location.href = '/dashboard-financeiro/index.html';
                 } else {
                     errorMsg.style.display = 'block';
                     submitBtn.innerText = 'Entrar';
@@ -157,7 +157,7 @@
                 if (email === 'artesedecoracoes@uol.com.br' && password === 'naty47982040') {
                     // Simular o cookie para o auth-check.js
                     document.cookie = "auth_token=offline_access; path=/; max-age=28800";
-                    window.location.href = 'index.html';
+                    window.location.href = '/dashboard-financeiro/index.html';
                 } else {
                     errorMsg.innerText = 'Erro ao conectar ao servidor.';
                     errorMsg.style.display = 'block';
