@@ -1,0 +1,543 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadoras de Materiais | Artes e Decorações</title>
+    <meta name="description"
+        content="Calcule a quantidade estimada de piso laminado, forro PVC ou drywall para sua obra com nossas calculadoras de materiais exclusivas.">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/calculadoras.css">
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="top-bar">
+            <div class="container">
+                <div class="top-bar-content">
+                    <div class="contact-info">
+                        <a href="https://www.google.com/maps/place/R.+Maj.+Pinheiro+Franco,+155+-+Centro,+Mogi+das+Cruzes+-+SP,+08610-090"
+                            target="_blank" class="desktop-only" style="margin-right: 15px; font-size: 0.75rem;"><i
+                                class="fas fa-map-marker-alt"></i> Rua Major Pinheiro Franco, 155</a>
+                        <a href="tel:1147982040"><i class="fas fa-phone"></i> (11) 4798-2040</a>
+                        <a href="https://wa.me/5511999201062" target="_blank"><i class="fab fa-whatsapp"></i> (11)
+                            99920-1062</a>
+                        <a href="https://instagram.com/artesedecoracoes.ltda" target="_blank"><i
+                                class="fab fa-instagram"></i> @artesedecoracoes.ltda</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="nav-main">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="img/logo.png" alt="Artes e Decorações Logo">
+                    </a>
+                </div>
+                <button class="menu-toggle" aria-label="Abrir menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="loja.html">Loja</a></li>
+                        <li><a href="servicos.html">Serviços</a></li>
+                        <li><a href="calculadoras.html" class="active"
+                                style="color:var(--accent-yellow);">Calculadoras</a></li>
+                        <li><a href="b2b.html">Para Empresas</a></li>
+                        <li><a href="sobre.html">Quem Somos</a></li>
+                        <li><a href="cadastro.html">Cadastre-se</a></li>
+                        <li><a href="contato.html">Contato</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero -->
+        <section class="calculator-hero">
+            <div class="container">
+                <i class="fas fa-calculator"
+                    style="font-size: 4rem; color: var(--accent-yellow); margin-bottom: 20px;"></i>
+                <h1 class="premium-font" style="margin-bottom: 15px;">Calculadoras de Materiais</h1>
+                <p style="font-size: 1.1rem; max-width: 600px; margin: 0 auto; opacity: 0.9;">Estime a quantidade ideal
+                    de material para seu projeto e evite dores de cabeça com faltas ou sobras. Escolha o segmento
+                    abaixo.</p>
+            </div>
+        </section>
+
+        <!-- Calculadoras Wrapper -->
+        <section class="calc-section">
+            <div class="container">
+                <div class="calc-container">
+
+                    <!-- Aba Headers -->
+                    <div class="calc-tabs">
+                        <div class="calc-tab active" data-target="tab-piso">Piso Laminado / Vinílico</div>
+                        <div class="calc-tab" data-target="tab-pvc">Forro PVC</div>
+                        <div class="calc-tab" data-target="tab-drywall">Drywall (Parede)</div>
+                        <div class="calc-tab" data-target="tab-papel">Papel de Parede</div>
+                        <div class="calc-tab" data-target="tab-persiana">Persianas</div>
+                    </div>
+
+                    <!-- PISO LAMINADO TAB -->
+                    <div id="tab-piso" class="calc-content active">
+                        <div class="calc-header">
+                            <h2 class="premium-font">Calcular Piso</h2>
+                            <p>Informe as medidas do ambiente (em metros).</p>
+                        </div>
+                        <form id="form-piso">
+                            <div class="calc-form-row" style="margin-bottom: 20px;">
+                                <div class="calc-group" style="flex-direction: row; gap: 20px;">
+                                    <label
+                                        style="display: flex; align-items: center; gap: 8px; font-weight: 500; cursor: pointer;">
+                                        <input type="radio" name="piso-tipo-medida" value="lxc" checked
+                                            onchange="togglePisoInputs()"> Largura x Comprimento
+                                    </label>
+                                    <label
+                                        style="display: flex; align-items: center; gap: 8px; font-weight: 500; cursor: pointer;">
+                                        <input type="radio" name="piso-tipo-medida" value="area"
+                                            onchange="togglePisoInputs()"> Área Total (m²)
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="calc-form-row" id="piso-medidas-container">
+                                <div class="calc-group">
+                                    <label>Largura do Ambiente</label>
+                                    <div class="calc-input-wrap">
+                                        <input type="number" id="piso-largura" step="0.01" min="0.1" required
+                                            placeholder="Ex: 4.0">
+                                        <span class="unit">m</span>
+                                    </div>
+                                </div>
+                                <div class="calc-group">
+                                    <label>Comprimento do Ambiente</label>
+                                    <div class="calc-input-wrap">
+                                        <input type="number" id="piso-comprimento" step="0.01" min="0.1" required
+                                            placeholder="Ex: 3.5">
+                                        <span class="unit">m</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="calc-form-row" id="piso-area-container" style="display: none;">
+                                <div class="calc-group">
+                                    <label>Área Total</label>
+                                    <div class="calc-input-wrap">
+                                        <input type="number" id="piso-area-total" step="0.01" min="0.1"
+                                            placeholder="Ex: 14.0">
+                                        <span class="unit">m²</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="calc-form-row">
+                                <div class="calc-group">
+                                    <label>Rendimento da Caixa (m²/cx)</label>
+                                    <div class="calc-input-wrap">
+                                        <input type="number" id="piso-rendimento" step="0.01" min="0.1" value="2.5"
+                                            placeholder="Padrão ~2.5m²">
+                                        <span class="unit">m²</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary calc-btn">Calcular Quantidade</button>
+                        </form>
+
+                        <div id="results-piso" class="calc-results">
+                            <h3>Estimativa de Materiais</h3>
+                            <div class="result-grid">
+                                <div class="result-item">
+                                    <div class="result-label">Área com Perda (10%)</div>
+                                    <div class="result-value" id="res-piso-area">0 m²</div>
+                                </div>
+                                <div class="result-item highlight">
+                                    <div class="result-label">Caixas de Piso</div>
+                                    <div class="result-value" id="res-piso-caixas">0 Cx</div>
+                                </div>
+                                <div class="result-item">
+                                    <div class="result-label">Base de Rodapé </div>
+                                    <div class="result-value" id="res-piso-rodape">0 m</div>
+                                </div>
+                            </div>
+                            <p class="result-note">* Cálculo inclui margem de 10% de perda para recortes. Descontos de
+                                portas/vãos no rodapé não foram considerados. Mão-de-obra e manta/cola devidos não
+                                inclusos.</p>
+                            <div style="text-align: center; margin-top: 25px;">
+                                <a href="https://wa.me/5511999201062?text=Olá,%20fiz%20um%20cálculo%20no%20site%20e%20gostaria%20de%20cotar%20piso%20laminado."
+                                    target="_blank" class="btn btn-accent" style="padding: 10px 20px;"><i
+                                        class="fab fa-whatsapp"></i> Mandar para Orçamento</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FORRO PVC TAB -->
+                    <div id="tab-pvc" class="calc-content">
+                        <div class="calc-header">
+                            <h2 class="premium-font">Calcular Forro PVC</h2>
+                            <p>Informe as medidas do teto (em metros).</p>
+                        </div>
+                        <form id="form-pvc">
+                            <div class="calc-form-row" style="margin-bottom: 20px;">
+                                <div class="calc-group" style="flex-direction: row; gap: 20px;">
+                                    <label
+                                        style="display: flex; align-items: center; gap: 8px; font-weight: 500; cursor: pointer;">
+                                        <input type="radio" name="pvc-tipo-medida" value="lxc" checked
+                                            onchange="togglePVCInputs()"> Largura x Comprimento
+                                    </label>
+                                    <label
+                                        style="display: flex; align-items: center; gap: 8px; font-weight: 500; cursor: pointer;">
+                                        <input type="radio" name="pvc-tipo-medida" value="area"
+                                            onchange="togglePVCInputs()"> Área Total (m²)
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="calc-form-row" id="pvc-medidas-container">
+                                <div class="calc-group">
+                                    <label>Largura Total</label>
+                                    <div class="calc-input-wrap">
+                                        <input type="number" id="pvc-largura" step="0.01" min="0.1" required
+                                            placeholder="Ex: 5.0">
+                                        <span class="unit">m</span>
+                                    </div>
+                                </div>
+                                <div class="calc-group">
+                                    <label>Comprimento Total</label>
+                                    <div class="calc-input-wrap">
+                                        <input type="number" id="pvc-comprimento" step="0.01" min="0.1" required
+                                            placeholder="Ex: 6.0">
+                                        <span class="unit">m</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="calc-form-row" id="pvc-area-container" style="display: none;">
+                                <div class="calc-group">
+                                    <label>Área Total</label>
+                                    <div class="calc-input-wrap">
+                                        <input type="number" id="pvc-area-total" step="0.01" min="0.1"
+                                            placeholder="Ex: 30.0">
+                                        <span class="unit">m²</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary calc-btn">Calcular Quantidade</button>
+                        </form>
+
+                        <div id="results-pvc" class="calc-results">
+                            <h3>Estimativa de Materiais</h3>
+                            <div class="result-grid">
+                                <div class="result-item">
+                                    <div class="result-label">Área com Perda (10%)</div>
+                                    <div class="result-value" id="res-pvc-area">0 m²</div>
+                                </div>
+                                <div class="result-item highlight">
+                                    <div class="result-label">Réguas (6m x 20cm)</div>
+                                    <div class="result-value" id="res-pvc-reguas">0 pçs</div>
+                                </div>
+                                <div class="result-item">
+                                    <div class="result-label">Rodaforro</div>
+                                    <div class="result-value" id="res-pvc-rodaforro">0 m</div>
+                                </div>
+                            </div>
+                            <p class="result-note">* Calculado com base em réguas padrão de 6m por 20cm (1.2m²). O
+                                cálculo considera estrutura básica de sustentação (Teto). Arame, estruturas e parafusos
+                                são orçados avulsos.</p>
+                            <div style="text-align: center; margin-top: 25px;">
+                                <a href="https://wa.me/5511999201062?text=Olá,%20fiz%20um%20cálculo%20no%20site%20e%20gostaria%20de%20cotar%20Forro%20PVC."
+                                    target="_blank" class="btn btn-accent" style="padding: 10px 20px;"><i
+                                        class="fab fa-whatsapp"></i> Mandar para Orçamento</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DRYWALL TAB -->
+                    <div id="tab-drywall" class="calc-content">
+                        <div class="calc-header">
+                            <h2 class="premium-font">Calcular Drywall (Parede 2 Faces)</h2>
+                            <p>Informe as medidas exatas da parede divisória desejada.</p>
+                        </div>
+                        <form id="form-drywall">
+                            <div class="calc-form-row" style="margin-bottom: 20px;">
+                                <div class="calc-group" style="flex-direction: row; gap: 20px;">
+                                    <label
+                                        style="display: flex; align-items: center; gap: 8px; font-weight: 500; cursor: pointer;">
+                                        <input type="radio" name="drywall-tipo-medida" value="lxc" checked
+                                            onchange="toggleDrywallInputs()"> Largura x Altura
+                                    </label>
+                                    <label
+                                        style="display: flex; align-items: center; gap: 8px; font-weight: 500; cursor: pointer;">
+                                        <input type="radio" name="drywall-tipo-medida" value="area"
+                                            onchange="toggleDrywallInputs()"> Área Total (m²)
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="calc-form-row" id="drywall-medidas-container">
+                                <div class="calc-group">
+                                    <label>Largura da Parede (Linear)</label>
+                                    <div class="calc-input-wrap">
+                                        <input type="number" id="drywall-largura" step="0.01" min="0.1" required
+                                            placeholder="Ex: 3.5">
+                                        <span class="unit">m</span>
+                                    </div>
+                                </div>
+                                <div class="calc-group">
+                                    <label>Altura do Pé-direito</label>
+                                    <div class="calc-input-wrap">
+                                        <input type="number" id="drywall-altura" step="0.01" min="0.1" required
+                                            placeholder="Ex: 2.8">
+                                        <span class="unit">m</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="calc-form-row" id="drywall-area-container" style="display: none;">
+                                <div class="calc-group">
+                                    <label>Área Total</label>
+                                    <div class="calc-input-wrap">
+                                        <input type="number" id="drywall-area-total" step="0.01" min="0.1"
+                                            placeholder="Ex: 9.8">
+                                        <span class="unit">m²</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary calc-btn">Calcular Quantidade</button>
+                        </form>
+
+                        <div id="results-drywall" class="calc-results">
+                            <h3>Estimativa de Materiais</h3>
+                            <div class="result-grid">
+                                <div class="result-item">
+                                    <div class="result-label">Área com Perda (10%)</div>
+                                    <div class="result-value" id="res-drywall-area">0 m²</div>
+                                </div>
+                                <div class="result-item highlight">
+                                    <div class="result-label">Chapas ST 12.5</div>
+                                    <div class="result-value" id="res-drywall-chapas">0 un</div>
+                                </div>
+                                <div class="result-item">
+                                    <div class="result-label">Est. Metálica Média</div>
+                                    <div class="result-value" id="res-drywall-estrutura">0 pçs</div>
+                                </div>
+                            </div>
+                            <p class="result-note">* Cálculo básico para fechamento das 2 faces. Placas Brancas ST
+                                comuns (1.2x1.8m). Itens como parafusos, massas de junta e banda acústica orçados
+                                separadamente pelos nossos especialistas.</p>
+                            <div style="text-align: center; margin-top: 25px;">
+                                <a href="https://wa.me/5511999201062?text=Olá,%20fiz%20um%20cálculo%20no%20site%20e%20gostaria%20de%20cotar%20Paredes%20Drywall."
+                                    target="_blank" class="btn btn-accent" style="padding: 10px 20px;"><i
+                                        class="fab fa-whatsapp"></i> Mandar para Orçamento</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PAPEL DE PAREDE TAB -->
+                    <div id="tab-papel" class="calc-content">
+                        <div class="calc-header">
+                            <h2 class="premium-font">Calcular Papel de Parede</h2>
+                            <p>Informe as dimensões da parede e do rolo.</p>
+                        </div>
+                        <form id="form-papel">
+                            <div class="calc-form-row">
+                                <div class="calc-group">
+                                    <label>Largura da Parede</label>
+                                    <div class="calc-input-wrap">
+                                        <input type="number" id="papel-largura" step="0.01" min="0.1" required
+                                            placeholder="Ex: 3.0">
+                                        <span class="unit">m</span>
+                                    </div>
+                                </div>
+                                <div class="calc-group">
+                                    <label>Altura da Parede</label>
+                                    <div class="calc-input-wrap">
+                                        <input type="number" id="papel-altura" step="0.01" min="0.1" required
+                                            placeholder="Ex: 2.6">
+                                        <span class="unit">m</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="calc-form-row">
+                                <div class="calc-group">
+                                    <label>Largura do Rolo</label>
+                                    <div class="calc-input-wrap">
+                                        <input type="number" id="papel-rolo-largura" step="0.01" min="0.1" value="0.53"
+                                            required>
+                                        <span class="unit">m</span>
+                                    </div>
+                                </div>
+                                <div class="calc-group">
+                                    <label>Comprimento do Rolo</label>
+                                    <div class="calc-input-wrap">
+                                        <input type="number" id="papel-rolo-comprimento" step="0.01" min="0.1"
+                                            value="10.0" required>
+                                        <span class="unit">m</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary calc-btn">Calcular Rolos</button>
+                        </form>
+
+                        <div id="results-papel" class="calc-results">
+                            <h3>Estimativa de Materiais</h3>
+                            <div class="result-grid">
+                                <div class="result-item">
+                                    <div class="result-label">Área da Parede</div>
+                                    <div class="result-value" id="res-papel-area">0 m²</div>
+                                </div>
+                                <div class="result-item highlight">
+                                    <div class="result-label">Quantidade de Rolos</div>
+                                    <div class="result-value" id="res-papel-rolos">0 un</div>
+                                </div>
+                                <div class="result-item">
+                                    <div class="result-label">Área por Rolo</div>
+                                    <div class="result-value" id="res-papel-area-rolo">0 m²</div>
+                                </div>
+                            </div>
+                            <p class="result-note">* Cálculo inclui margem de 15% para perdas e casamentos de desenhos
+                                (rapport).</p>
+                            <div style="text-align: center; margin-top: 25px;">
+                                <a href="https://wa.me/5511999201062?text=Olá,%20fiz%20um%20cálculo%20no%20site%20e%20gostaria%20de%20cotar%20Papel%20de%20Parede."
+                                    target="_blank" class="btn btn-accent" style="padding: 10px 20px;"><i
+                                        class="fab fa-whatsapp"></i> Mandar para Orçamento</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PERSIANAS TAB -->
+                    <div id="tab-persiana" class="calc-content">
+                        <div class="calc-header">
+                            <h2 class="premium-font">Calcular Persiana</h2>
+                            <p>Informe as medidas da janela ou vão.</p>
+                        </div>
+                        <form id="form-persiana">
+                            <div class="calc-form-row">
+                                <div class="calc-group">
+                                    <label>Largura da Janela</label>
+                                    <div class="calc-input-wrap">
+                                        <input type="number" id="persiana-largura" step="0.01" min="0.1" required
+                                            placeholder="Ex: 1.5">
+                                        <span class="unit">m</span>
+                                    </div>
+                                </div>
+                                <div class="calc-group">
+                                    <label>Altura da Janela</label>
+                                    <div class="calc-input-wrap">
+                                        <input type="number" id="persiana-altura" step="0.01" min="0.1" required
+                                            placeholder="Ex: 1.2">
+                                        <span class="unit">m</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="calc-form-row">
+                                <p style="font-size: 0.85rem; color: var(--text-muted); width: 100%;">* Adicionaremos
+                                    automaticamente 10cm de cada lado para sobreposição ideal.</p>
+                            </div>
+                            <button type="submit" class="btn btn-primary calc-btn">Calcular Área</button>
+                        </form>
+
+                        <div id="results-persiana" class="calc-results">
+                            <h3>Estimativa de Medida</h3>
+                            <div class="result-grid">
+                                <div class="result-item">
+                                    <div class="result-label">Largura Final</div>
+                                    <div class="result-value" id="res-persiana-largura">0 m</div>
+                                </div>
+                                <div class="result-item highlight">
+                                    <div class="result-label">Área Total</div>
+                                    <div class="result-value" id="res-persiana-area">0 m²</div>
+                                </div>
+                                <div class="result-item">
+                                    <div class="result-label">Altura Final</div>
+                                    <div class="result-value" id="res-persiana-altura">0 m</div>
+                                </div>
+                            </div>
+                            <p class="result-note">* Meta de área mínima para cobrança costuma ser de 1.50m² a 2.00m²
+                                dependendo do modelo.</p>
+                            <div style="text-align: center; margin-top: 25px;">
+                                <a href="https://wa.me/5511999201062?text=Olá,%20fiz%20um%20cálculo%20no%20site%20e%20gostaria%20de%20cotar%20Persianas."
+                                    target="_blank" class="btn btn-accent" style="padding: 10px 20px;"><i
+                                        class="fab fa-whatsapp"></i> Mandar para Orçamento</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer style="background: #051426; color: white; padding: 80px 0 40px;">
+        <div class="container">
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 60px;">
+                <div>
+                    <img src="img/logo.png" alt="Artes e Decorações Logo" style="height: 60px; margin-bottom: 20px;">
+                    <p style="opacity: 0.7; font-size: 0.9rem;">Referência em materiais para construção e acabamento em
+                        Mogi das Cruzes há mais de 4 décadas.</p>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 25px;">Nossos Produtos</h4>
+                    <ul style="list-style: none; opacity: 0.7; font-size: 0.9rem; line-height: 2;">
+                        <li><a href="#" style="color: white; text-decoration: none;">Pisos Laminados</a></li>
+                        <li><a href="#" style="color: white; text-decoration: none;">Drywall</a></li>
+                        <li><a href="#" style="color: white; text-decoration: none;">Forros PVC/Modular</a></li>
+                        <li><a href="#" style="color: white; text-decoration: none;">Persianas e Papel de Parede</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 25px;">Cidades Atendidas</h4>
+                    <ul style="list-style: none; opacity: 0.7; font-size: 0.8rem; line-height: 2;">
+                        <li>Mogi das Cruzes</li>
+                        <li>Suzano e Poá</li>
+                        <li>Itaquaquecetuba</li>
+                        <li>Arujá</li>
+                        <li>Grande São Paulo</li>
+                        <li>Litoral Norte e Sul</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 25px;">Contato</h4>
+                    <p style="font-size: 0.9rem; opacity: 0.7; margin-bottom: 12px;">
+                        <a href="https://www.google.com/maps/place/R.+Maj.+Pinheiro+Franco,+155+-+Centro,+Mogi+das+Cruzes+-+SP,+08610-090"
+                            target="_blank" style="color: white; text-decoration: none;">
+                            <i class="fas fa-map-marker-alt" style="color: var(--accent-yellow);"></i> Rua Major
+                            Pinheiro Franco, 155<br>
+                            Mogi das Cruzes - SP
+                        </a>
+                    </p>
+                    <p style="font-size: 0.9rem; opacity: 0.7; margin-bottom: 12px;">
+                        <i class="fas fa-envelope" style="color: var(--accent-yellow);"></i> <a
+                            href="mailto:artesdecoracoes04@gmail.com"
+                            style="color: white; text-decoration: none;">artesdecoracoes04@gmail.com</a>
+                    </p>
+                    <p style="font-size: 0.9rem; opacity: 0.7; margin-bottom: 12px;">
+                        <i class="fas fa-phone" style="color: var(--accent-yellow);"></i> (11) 4798-2040
+                    </p>
+                    <p style="font-size: 0.9rem; opacity: 0.7; margin-bottom: 15px;">
+                        <i class="fab fa-whatsapp" style="color: var(--accent-yellow);"></i> (11) 99920-1062
+                    </p>
+                    <a href="https://www.google.com/maps/place/R.+Maj.+Pinheiro+Franco,+155+-+Centro,+Mogi+das+Cruzes+-+SP,+08610-090"
+                        target="_blank" class="btn btn-accent" style="padding: 8px 15px; font-size: 0.8rem;">Ver no
+                        mapa</a>
+                </div>
+            </div>
+            <div
+                style="border-top: 1px border rgba(255,255,255,0.1); padding-top: 30px; text-align: center; font-size: 0.8rem; opacity: 0.5;">
+                <p>&copy; 2024 Artes e Decorações. Todos os direitos reservados. CNPJ: 55.927.438/0001-01</p>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/5511999201062" class="whatsapp-float" target="_blank">
+        <img src="img/whatsapp.svg" alt="WhatsApp">
+    </a>
+
+    <script src="js/main.js"></script>
+    <script src="js/calculadoras.js"></script>
+</body>
+
+</html>

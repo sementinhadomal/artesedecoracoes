@@ -1,0 +1,5 @@
+﻿<svg width="200" height="100" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="200" height="100" fill="#fff"/>
+  <path d="M20 70 L40 30 L60 70 L80 30 L100 70" stroke="#e3000f" stroke-width="8" fill="none" stroke-linejoin="round"/>
+  <text x="140" y="60" font-family="Arial, sans-serif" font-weight="900" font-size="24" fill="#e3000f" text-anchor="middle">WALSYWA</text>
+</svg>

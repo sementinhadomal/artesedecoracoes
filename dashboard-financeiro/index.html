@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artes e Decorações | Dashboard Financeiro</title>
+    <link rel="stylesheet" href="/dashboard-financeiro/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="/dashboard-financeiro/js/auth-check.js"></script>
+</head>
+
+<body>
+    <div class="dashboard-wrapper">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <img src="/img/logo.png" alt="Artes e Decorações Logo">
+                <h2>Financeiro</h2>
+            </div>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Geral</div>
+                <a href="#" class="nav-item active" onclick="switchPage('main')">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Página Principal</span>
+                </a>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Canais de Venda</div>
+                <a href="#" class="nav-item" onclick="switchPage('venda_balcao')">
+                    <i class="fas fa-store"></i>
+                    <span>Frente de Balcão</span>
+                </a>
+                <a href="#" class="nav-item" onclick="switchPage('venda_shibata')">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Supermercado Shibata</span>
+                </a>
+                <a href="#" class="nav-item" onclick="switchPage('venda_shopee')">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>Shopee</span>
+                </a>
+                <a href="#" class="nav-item" onclick="switchPage('venda_ml')">
+                    <i class="fas fa-box"></i>
+                    <span>Mercado Livre</span>
+                </a>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Categorias de Produtos</div>
+                <a href="#" class="nav-item" onclick="switchPage('venda_drywall')">
+                    <i class="fas fa-th-large"></i>
+                    <span>Drywall</span>
+                </a>
+                <a href="#" class="nav-item" onclick="switchPage('venda_divisorias')">
+                    <i class="fas fa-columns"></i>
+                    <span>Divisórias</span>
+                </a>
+                <a href="#" class="nav-item" onclick="switchPage('venda_papel')">
+                    <i class="fas fa-scroll"></i>
+                    <span>Papel de Parede</span>
+                </a>
+                <a href="#" class="nav-item" onclick="switchPage('venda_persianas')">
+                    <i class="fas fa-align-justify"></i>
+                    <span>Persianas</span>
+                </a>
+                <a href="#" class="nav-item" onclick="switchPage('venda_espelhos')">
+                    <i class="fas fa-window-maximize"></i>
+                    <span>Espelhos e Box</span>
+                </a>
+                <a href="#" class="nav-item" onclick="switchPage('venda_hidraulica')">
+                    <i class="fas fa-faucet"></i>
+                    <span>Hidráulica</span>
+                </a>
+                <a href="#" class="nav-item" onclick="switchPage('venda_eletrica')">
+                    <i class="fas fa-bolt"></i>
+                    <span>Elétrica</span>
+                </a>
+                <a href="#" class="nav-item" onclick="switchPage('venda_ferramentas')">
+                    <i class="fas fa-tools"></i>
+                    <span>Ferramentas</span>
+                </a>
+                <a href="#" class="nav-item" onclick="switchPage('venda_geral')">
+                    <i class="fas fa-layer-group"></i>
+                    <span>Materiais em Geral</span>
+                </a>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Despesas</div>
+                <a href="#" class="nav-item" onclick="switchPage('gasto_loja')">
+                    <i class="fas fa-building"></i>
+                    <span>Contas da Loja</span>
+                </a>
+                <a href="#" class="nav-item" onclick="switchPage('gasto_familia')">
+                    <i class="fas fa-home"></i>
+                    <span>Contas Família</span>
+                </a>
+                <a href="#" class="nav-item" onclick="switchPage('gasto_funcionarios')">
+                    <i class="fas fa-users"></i>
+                    <span>Funcionários</span>
+                </a>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Integrações</div>
+                <a href="#" class="nav-item" onclick="switchPage('bling_integration')">
+                    <i class="fas fa-sync-alt"></i>
+                    <span>Bling ERP</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-container">
+            <header>
+                <h1 id="page-title">Página Principal</h1>
+                <div id="date-display" class="text-muted"></div>
+            </header>
+
+            <div id="dashboard-content">
+                <div class="stats-grid">
+                    <div class="glass-card stat-item">
+                        <h3>Faturamento <span id="stat-label">Total</span></h3>
+                        <div class="value amount-positive" id="total-revenue">R$ 0,00</div>
+                    </div>
+                    <div class="glass-card stat-item">
+                        <h3>Gastos <span id="stat-label-exp">Totais</span></h3>
+                        <div class="value amount-negative" id="total-expenses">R$ 0,00</div>
+                    </div>
+                    <div class="glass-card stat-item">
+                        <h3>A Pagar</h3>
+                        <div class="value" id="to-pay">R$ 0,00</div>
+                    </div>
+                    <div class="glass-card stat-item">
+                        <h3>Saldo Projetado</h3>
+                        <div class="value" id="projected-balance">R$ 0,00</div>
+                    </div>
+                </div>
+
+                <div class="main-content">
+                    <div class="glass-card" id="form-container">
+                        <h2 id="form-title">Registrar Movimentação</h2>
+                        <div id="entry-form">
+                            <!-- Form fields will be dynamically updated based on page but kept simple -->
+                            <div class="form-group">
+                                <label for="amount">Valor (R$)</label>
+                                <input type="number" id="amount" placeholder="0,00" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label for="desc">Descrição</label>
+                                <input type="text" id="desc" placeholder="Ex: Venda Produto X / Aluguel">
+                            </div>
+                            <div class="form-group" id="status-group" style="display:none">
+                                <label for="status">Status</label>
+                                <select id="status">
+                                    <option value="pending">Pendente</option>
+                                    <option value="paid">Pago</option>
+                                </select>
+                            </div>
+                            <button id="submit-btn" onclick="handleSubmit()">Registrar</button>
+                        </div>
+                    </div>
+
+                    <div class="glass-card">
+                        <h2>Histórico Recente</h2>
+                        <div class="list-container" id="history-list">
+                            <!-- Items will be injected here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/dashboard-financeiro/app.js"></script>
+</body>
+
+</html>

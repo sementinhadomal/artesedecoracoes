@@ -1,0 +1,259 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro Cliente e Empresa | Artes e DecoraÃ§Ãµes</title>
+    <meta name="description"
+        content="Cadastre-se na Artes e DecoraÃ§Ãµes. Solicite tabela corporativa para arquitetos, construtoras e design de interiores em Mogi das Cruzes.">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/cadastro.css">
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="top-bar">
+            <div class="container">
+                <div class="top-bar-content">
+                    <div class="contact-info">
+                        <a href="https://www.google.com/maps/place/R.+Maj.+Pinheiro+Franco,+155+-+Centro,+Mogi+das+Cruzes+-+SP,+08610-090"
+                            target="_blank" class="desktop-only" style="margin-right: 15px; font-size: 0.75rem;"><i
+                                class="fas fa-map-marker-alt"></i> Rua Major Pinheiro Franco, 155</a>
+                        <a href="tel:1147982040"><i class="fas fa-phone"></i> (11) 4798-2040</a>
+                        <a href="https://wa.me/5511999201062" target="_blank"><i class="fab fa-whatsapp"></i> (11)
+                            99920-1062</a>
+                        <a href="https://instagram.com/artesedecoracoes.ltda" target="_blank"><i
+                                class="fab fa-instagram"></i> @artesedecoracoes.ltda</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="nav-main">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="img/logo.png" alt="Artes e DecoraÃ§Ãµes Logo">
+                    </a>
+                </div>
+                <button class="menu-toggle" aria-label="Abrir menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">InÃ­cio</a></li>
+                        <li><a href="loja.html">Loja</a></li>
+                        <li><a href="servicos.html">ServiÃ§os</a></li>
+                        <li><a href="calculadoras.html">Calculadoras</a></li>
+                        <li><a href="b2b.html">Para Empresas</a></li>
+                        <li><a href="sobre.html">Quem Somos</a></li>
+                        <li><a href="cadastro.html" class="active" style="color:var(--accent-yellow);">Cadastre-se</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero -->
+        <section class="cadastro-hero">
+            <div class="container">
+                <i class="fas fa-user-circle"
+                    style="font-size: 4rem; color: var(--accent-yellow); margin-bottom: 20px;"></i>
+                <h1 class="premium-font" style="margin-bottom: 15px;">Cadastre-se Conosco</h1>
+                <p style="font-size: 1.1rem; max-width: 600px; margin: 0 auto; opacity: 0.9;">Acelere seus orÃ§amentos e
+                    tenha acesso a condiÃ§Ãµes exclusivas preenchendo o formulÃ¡rio abaixo rapidamente.</p>
+            </div>
+        </section>
+
+        <!-- Cadastro Wrapper -->
+        <section class="cadastro-section">
+            <div class="container">
+                <div class="cadastro-container">
+
+                    <!-- Tipo de Cadastro -->
+                    <div class="cadastro-type-selector">
+                        <div class="type-btn active" data-type="PF">Consumidor Final (PF)</div>
+                        <div class="type-btn" data-type="PJ">Empresa / Arquiteto (PJ)</div>
+                    </div>
+
+                    <div class="cadastro-form-container">
+                        <div class="form-header">
+                            <h2 class="premium-font">Dados para Contato</h2>
+                            <p>Preencha os dados abaixo. NÃ£o se preocupe, usamos seus dados apenas para elaboraÃ§Ã£o de
+                                propostas e orÃ§amentos baseados na LGPD.</p>
+                        </div>
+
+                        <!-- B2B Notice -->
+                        <div id="b2b-notice" class="b2b-notice">
+                            <strong>Aviso Importante:</strong> O cadastro corporativo estÃ¡ sujeito a anÃ¡lise da nossa
+                            equipe comercial. A tabela de preÃ§os B2B sÃ³ serÃ¡ liberada apÃ³s verificaÃ§Ã£o manual do
+                            CNPJ
+                            fornecido em atÃ© 24h Ãºteis.
+                        </div>
+
+                        <form id="cadastro-form">
+                            <!-- Hidden input to track type -->
+                            <input type="hidden" id="tipo-cadastro" value="PF">
+
+                            <div class="form-row">
+                                <div class="form-group full-width">
+                                    <label>Nome Completo ou RazÃ£o Social</label>
+                                    <input type="text" id="input-nome" required
+                                        placeholder="Digite seu nome ou o nome da sua empresa">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label id="label-documento">CPF</label>
+                                    <input type="text" id="input-documento" required placeholder="000.000.000-00">
+                                </div>
+                                <div class="form-group">
+                                    <label>E-mail</label>
+                                    <input type="email" id="input-email" required placeholder="seuemail@exemplo.com">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>WhatsApp / Telefone</label>
+                                    <input type="tel" id="input-telefone" required placeholder="(11) 90000-0000">
+                                </div>
+                                <div class="form-group">
+                                    <label>Principal Interesse</label>
+                                    <select id="input-interesse" required>
+                                        <option value="" disabled selected>Selecione uma opÃ§Ã£o</option>
+                                        <option value="Piso Laminado/VinÃ­lico">Piso Laminado / VinÃ­lico</option>
+                                        <option value="Drywall e Forros">Sistemas Drywall e Forros</option>
+                                        <option value="Tabela B2B / Parceria">Tabela B2B / Parceria Corporativa</option>
+                                        <option value="Outros">Outros Acabamentos</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-header" style="margin-top: 40px; text-align: left;">
+                                <h3 class="premium-font"
+                                    style="color: var(--primary-blue); border-bottom: 2px solid var(--border-color); padding-bottom: 10px;">
+                                    EndereÃ§o de Obra ou Faturamento</h3>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>CEP (Digite para autocompletar)</label>
+                                    <input type="text" id="input-cep" required placeholder="00000-000">
+                                </div>
+                                <div class="form-group"></div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Rua / Logradouro</label>
+                                    <input type="text" id="input-rua" required>
+                                </div>
+                                <div class="form-group" style="max-width: 150px;">
+                                    <label>NÃºmero</label>
+                                    <input type="text" id="input-numero" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Bairro</label>
+                                    <input type="text" id="input-bairro" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Cidade</label>
+                                    <input type="text" id="input-cidade" required>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-submit" style="margin-top: 30px;">
+                                <img src="img/whatsapp.svg" alt="WhatsApp"> Finalizar Cadastro e Enviar
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer style="background: #051426; color: white; padding: 80px 0 40px;">
+        <div class="container">
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 60px;">
+                <div>
+                    <img src="img/logo.png" alt="Artes e DecoraÃ§Ãµes Logo" style="height: 60px; margin-bottom: 20px;">
+                    <p style="opacity: 0.7; font-size: 0.9rem;">ReferÃªncia em materiais para construÃ§Ã£o e acabamento
+                        em
+                        Mogi das Cruzes hÃ¡ mais de 4 dÃ©cadas.</p>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 25px;">Nossos Produtos</h4>
+                    <ul style="list-style: none; opacity: 0.7; font-size: 0.9rem; line-height: 2;">
+                        <li><a href="#" style="color: white; text-decoration: none;">Pisos Laminados</a></li>
+                        <li><a href="#" style="color: white; text-decoration: none;">Drywall</a></li>
+                        <li><a href="#" style="color: white; text-decoration: none;">Forros PVC/Modular</a></li>
+                        <li><a href="#" style="color: white; text-decoration: none;">Persianas e Papel de Parede</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 25px;">Cidades Atendidas</h4>
+                    <ul style="list-style: none; opacity: 0.7; font-size: 0.8rem; line-height: 2;">
+                        <li>Mogi das Cruzes</li>
+                        <li>Suzano e PoÃ¡</li>
+                        <li>Itaquaquecetuba</li>
+                        <li>ArujÃ¡</li>
+                        <li>Grande SÃ£o Paulo</li>
+                        <li>Litoral Norte e Sul</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 25px;">Contato</h4>
+                    <p style="font-size: 0.9rem; opacity: 0.7; margin-bottom: 12px;">
+                        <a href="https://www.google.com/maps/place/R.+Maj.+Pinheiro+Franco,+155+-+Centro,+Mogi+das+Cruzes+-+SP,+08610-090"
+                            target="_blank" style="color: white; text-decoration: none;">
+                            <i class="fas fa-map-marker-alt" style="color: var(--accent-yellow);"></i> Rua Major
+                            Pinheiro Franco, 155<br>
+                            Mogi das Cruzes - SP
+                        </a>
+                    </p>
+                    <p style="font-size: 0.9rem; opacity: 0.7; margin-bottom: 12px;">
+                        <i class="fas fa-envelope" style="color: var(--accent-yellow);"></i> <a
+                            href="mailto:artesdecoracoes04@gmail.com"
+                            style="color: white; text-decoration: none;">artesdecoracoes04@gmail.com</a>
+                    </p>
+                    <p style="font-size: 0.9rem; opacity: 0.7; margin-bottom: 12px;">
+                        <i class="fas fa-phone" style="color: var(--accent-yellow);"></i> (11) 4798-2040
+                    </p>
+                    <p style="font-size: 0.9rem; opacity: 0.7; margin-bottom: 15px;">
+                        <i class="fab fa-whatsapp" style="color: var(--accent-yellow);"></i> (11) 99920-1062
+                    </p>
+                    <a href="https://www.google.com/maps/place/R.+Maj.+Pinheiro+Franco,+155+-+Centro,+Mogi+das+Cruzes+-+SP,+08610-090"
+                        target="_blank" class="btn btn-accent" style="padding: 8px 15px; font-size: 0.8rem;">Ver no
+                        mapa</a>
+                </div>
+            </div>
+            <div
+                style="border-top: 1px border rgba(255,255,255,0.1); padding-top: 30px; text-align: center; font-size: 0.8rem; opacity: 0.5;">
+                <p>&copy; 2024 Artes e Decorações. Todos os direitos reservados. CNPJ: 55.927.438/0001-01</p>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/5511999201062" class="whatsapp-float" target="_blank">
+        <img src="img/whatsapp.svg" alt="WhatsApp">
+    </a>
+
+    <script src="js/main.js"></script>
+    <script src="js/cadastro.js"></script>
+</body>
+
+</html>
