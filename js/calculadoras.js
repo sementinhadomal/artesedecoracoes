@@ -117,7 +117,7 @@ function calcularPiso() {
     document.getElementById("res-piso-area").innerText = formatNum(areaComPerda) + " m²";
     document.getElementById("res-piso-caixas").innerText = caixas + " Cx";
     document.getElementById("res-piso-manta").innerText = formatNum(mantaLinear) + " m lin.";
-    document.getElementById("res-piso-rodape").innerText = formatNum(rodapeLinear) + " m" + (tipo === 'area' ? '*' : '');
+    document.getElementById("res-piso-rodape").innerText = formatNum(rodapeLinear) + " m lin.";
     document.getElementById("res-piso-portas").innerText = formatNum(descontoLinear) + " m lin.";
     document.getElementById("res-piso-pregos").innerText = pregos + " un";
     document.getElementById("res-piso-cola").innerText = colaBranca + " kg";
