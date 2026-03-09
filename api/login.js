@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const { serialize } = require('cookie');
 
 // Configurações (Essas variáveis devem estar no ambiente da Vercel para segurança máxima)
-const ADMIN_EMAIL = 'artesedecoracoes@uol.com.br';
+const ADMIN_EMAIL = 'artesdecoracoes04@gmail.com';
 // Hash bcrypt de 'naty47982040'
 const PASSWORD_HASH = '$2a$10$7H3x9vKy9vKy9vKy9vKy9vKy9vKy9vKy9vKy9vKy9vKy9vKy9vKy'; // Placeholder, idealmente gerado dinamicamente
 const JWT_SECRET = 'sua_chave_secreta_super_segura'; // Deve ser uma ENV variable

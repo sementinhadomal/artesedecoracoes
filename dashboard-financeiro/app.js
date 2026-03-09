@@ -64,8 +64,8 @@ function saveData() {
 }
 
 async function syncWithCloud() {
-    // Pegar apenas os produtos que têm configurações (importados)
-    const productsToSync = financialData.importedProducts || [];
+    // Pegar apenas os produtos que foram PUBLICADOS para o site
+    const productsToSync = (financialData.importedProducts || []).filter(p => p.status === 'published');
 
     try {
         await fetch('/api/products/save', {
@@ -128,46 +128,51 @@ function renderPage() {
 function renderIntegrationPage(pageId) {
     const content = document.getElementById('dashboard-content');
     if (pageId === 'bling_integration') {
+        const lastSync = financialData.lastBlingSync ? new Date(financialData.lastBlingSync).toLocaleString('pt-BR') : 'Nunca';
+        const importedCount = (financialData.importedProducts || []).filter(p => p.status === 'published').length;
+
         content.innerHTML = `
             <div class="glass-card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
                     <div>
-                        <h2>Sincronização com Bling ERP</h2>
-                        <p class="text-muted" style="font-size: 0.9rem;">Gerencie seus produtos e estoque do Bling diretamente no site.</p>
+                        <h2>Gestão de Catálogo (Bling ERP)</h2>
+                        <p class="text-muted" style="font-size: 0.9rem;">Sincronize, selecione e publique seus materiais no site.</p>
                     </div>
                     <button class="btn-primary" onclick="syncBlingProducts()" id="sync-btn" style="padding: 10px 20px;">
                         <i class="fas fa-sync-alt"></i> Sincronizar Agora
                     </button>
                 </div>
                 
-                <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 30px;">
-                    <div class="glass-card" style="padding: 15px; text-align: center;">
+                <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 30px;">
+                    <div class="glass-card" style="padding: 15px; text-align: center; background: rgba(255,255,255,0.03);">
                         <div class="text-muted" style="font-size: 0.8rem;">Status da Conexão</div>
-                        <div style="color: #22c55e; font-weight: 600;"><i class="fas fa-check-circle"></i> Conectado</div>
+                        <div style="color: #22c55e; font-weight: 600; font-size: 1.1rem;"><i class="fas fa-check-circle"></i> Conectado</div>
                     </div>
-                    <div class="glass-card" style="padding: 15px; text-align: center;">
+                    <div class="glass-card" style="padding: 15px; text-align: center; background: rgba(255,255,255,0.03);">
                         <div class="text-muted" style="font-size: 0.8rem;">Última Sincronização</div>
-                        <div id="last-sync-date">Nunca</div>
+                        <div style="font-weight: 600; font-size: 1.1rem;">${lastSync}</div>
                     </div>
-                    <div class="glass-card" style="padding: 15px; text-align: center;">
-                        <div class="text-muted" style="font-size: 0.8rem;">Produtos Importados</div>
-                        <div id="imported-count">0</div>
+                    <div class="glass-card" style="padding: 15px; text-align: center; background: rgba(255,255,255,0.03);">
+                        <div class="text-muted" style="font-size: 0.8rem;">Produtos no Site</div>
+                        <div style="color: var(--accent-yellow); font-weight: 600; font-size: 1.1rem;">${importedCount}</div>
                     </div>
                 </div>
 
-                <div class="table-controls" style="display: flex; gap: 15px; margin-bottom: 20px;">
-                    <input type="text" id="bling-search" placeholder="Buscar por nome ou SKU..." style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: white;">
-                    <select id="bling-filter-status" style="padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: white;">
-                        <option value="all">Todos os Status</option>
-                        <option value="not_imported">Não Importados</option>
-                        <option value="imported">Importados</option>
-                        <option value="update_available">Atualização Disponível</option>
+                <div class="table-controls" style="display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 250px; position: relative;">
+                        <i class="fas fa-search" style="position: absolute; left: 12px; top: 12px; color: #94a3b8;"></i>
+                        <input type="text" id="bling-search" onkeyup="renderBlingProductsList()" placeholder="Buscar por nome ou SKU..." style="width: 100%; padding: 10px 10px 10px 35px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: white;">
+                    </div>
+                    <select id="bling-filter-status" onchange="renderBlingProductsList()" style="padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: white; min-width: 180px;">
+                        <option value="all">Todos os Produtos</option>
+                        <option value="published">Ativos no Site</option>
+                        <option value="not_published">Inativos / Novos</option>
                     </select>
                 </div>
 
-                <div class="list-container" id="bling_products_list">
+                <div id="bling_products_list">
                     <div style="text-align: center; padding: 40px; color: #94a3b8;">
-                        Clique em "Sincronizar Agora" para carregar seus produtos.
+                        Carregando lista de produtos...
                     </div>
                 </div>
             </div>
@@ -175,6 +180,7 @@ function renderIntegrationPage(pageId) {
         renderBlingProductsList();
     }
 }
+
 async function syncBlingProducts() {
     const btn = document.getElementById('sync-btn');
     if (!btn) return;
@@ -191,13 +197,13 @@ async function syncBlingProducts() {
             financialData.lastBlingSync = data.syncDate;
             saveData();
             renderIntegrationPage('bling_integration');
-            alert('Sincronização concluída com sucesso!');
+            alert('Sincronização com Bling concluída!');
         } else {
-            alert('Erro: ' + data.message);
+            alert('Erro: ' + (data.message || 'Falha na sincronização'));
         }
     } catch (error) {
         console.error('Erro na sincronização:', error);
-        alert('Erro ao conectar com a API de sincronização.');
+        alert('Erro ao conectar com o servidor.');
     } finally {
         if (btn) {
             btn.innerHTML = originalText;
@@ -208,13 +214,28 @@ async function syncBlingProducts() {
 
 function renderBlingProductsList() {
     const list = document.getElementById('bling_products_list');
-    const products = financialData.blingProducts || [];
+    if (!list) return;
+
+    const searchTerm = document.getElementById('bling-search')?.value.toLowerCase() || "";
+    const statusFilter = document.getElementById('bling-filter-status')?.value || "all";
+
+    const products = (financialData.blingProducts || []).filter(p => {
+        const matchesSearch = p.nome.toLowerCase().includes(searchTerm) || p.sku.toLowerCase().includes(searchTerm);
+        if (!matchesSearch) return false;
+
+        if (statusFilter === 'all') return true;
+        const local = (financialData.importedProducts || []).find(ip => ip.sku === p.sku);
+        if (statusFilter === 'published') return local?.status === 'published';
+        if (statusFilter === 'not_published') return local?.status !== 'published';
+        return true;
+    });
+
     const importedProducts = financialData.importedProducts || [];
 
-    // Categorias disponíveis no site
     const categories = [
         { id: 'venda_piso_laminado', name: 'Piso Laminado' },
         { id: 'venda_piso_vinilico', name: 'Piso Vinílico' },
+        { id: 'venda_forros', name: 'Forros' },
         { id: 'venda_drywall', name: 'Drywall' },
         { id: 'venda_divisorias', name: 'Divisórias' },
         { id: 'venda_papel', name: 'Papel de Parede' },
@@ -226,60 +247,70 @@ function renderBlingProductsList() {
         { id: 'venda_geral', name: 'Geral' }
     ];
 
-    if (products.length === 0) return;
+    if (products.length === 0) {
+        list.innerHTML = `<div style="text-align: center; padding: 40px; color: #94a3b8;">Nenhum produto encontrado.</div>`;
+        return;
+    }
 
     list.innerHTML = `
-        <div style="margin-bottom: 20px;">
-            <h4 style="color: #94a3b8; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 10px;">Gestão de Catálogo (Estilo Shopify)</h4>
-            <table style="width: 100%; border-collapse: collapse;">
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; min-width: 800px;">
                 <thead>
                     <tr style="text-align: left; border-bottom: 2px solid rgba(255,255,255,0.1); color: #94a3b8; font-size: 0.85rem;">
                         <th style="padding: 12px;">Produto</th>
                         <th style="padding: 12px;">Categoria No Site</th>
                         <th style="padding: 12px;">Preço</th>
+                        <th style="padding: 12px;">Estoque</th>
                         <th style="padding: 12px;">Status</th>
                         <th style="padding: 12px; text-align: right;">Ações</th>
                     </tr>
                 </thead>
-                <tbody id="bling-table-body">
+                <tbody>
                     ${products.map(product => {
         const localCopy = importedProducts.find(p => p.sku === product.sku);
         const isImported = !!localCopy;
         const isPublished = localCopy?.status === 'published';
 
         return `
-                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                            <td style="padding: 12px; display: flex; gap: 10px; align-items: center;">
-                                <img src="${product.imagem || 'img/placeholder.png'}" style="width: 40px; height: 40px; border-radius: 4px; object-fit: cover;">
-                                <div>
-                                    <div style="font-weight: 500; font-size: 0.85rem;">${product.nome}</div>
-                                    <div style="font-size: 0.7rem; color: #94a3b8;">SKU: ${product.sku}</div>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                            <td style="padding: 12px; display: flex; gap: 12px; align-items: center;">
+                                <div style="width: 45px; height: 45px; border-radius: 6px; overflow: hidden; background: #333; flex-shrink: 0;">
+                                    <img src="${product.imagem || '/img/placeholder.png'}" style="width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                                <div style="overflow: hidden;">
+                                    <div style="font-weight: 500; font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #f8fafc;">${product.nome}</div>
+                                    <div style="font-size: 0.75rem; color: #94a3b8;">SKU: ${product.sku}</div>
                                 </div>
                             </td>
                             <td style="padding: 12px;">
-                                <select onchange="updateProductCategory('${product.sku}', this.value)" style="padding: 5px; font-size: 0.75rem; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 4px;">
-                                    <option value="">Selecionar...</option>
-                                    ${categories.map(c => `
-                                        <option value="${c.id}" ${localCopy?.targetCategory === c.id ? 'selected' : ''}>${c.name}</option>
-                                    `).join('')}
+                                <select onchange="updateProductCategory('${product.sku}', this.value)" style="padding: 8px; font-size: 0.8rem; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 6px; width: 100%; max-width: 160px; cursor: pointer;">
+                                    <option value="">Sem Categoria</option>
+                                    ${categories.map(c => `<option value="${c.id}" ${localCopy?.targetCategory === c.id ? 'selected' : ''}>${c.name}</option>`).join('')}
                                 </select>
                             </td>
-                            <td style="padding: 12px; font-size: 0.85rem;">R$ ${product.preco.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+                            <td style="padding: 12px; font-weight: 600; color: #3b82f6;">
+                                R$ ${parseFloat(product.preco).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                            </td>
+                            <td style="padding: 12px; color: ${product.estoque > 0 ? '#22c55e' : '#ef4444'};">
+                                ${product.estoque || 0} unid
+                            </td>
                             <td style="padding: 12px;">
-                                <span class="badge ${isPublished ? 'badge-paid' : (isImported ? 'badge-pending' : '')}" style="font-size: 0.65rem;">
-                                    ${isPublished ? 'ATIVO' : (isImported ? 'INATIVO' : 'NOVO')}
+                                <span class="badge ${isPublished ? 'badge-paid' : (isImported ? 'badge-pending' : '')}" style="font-size: 0.7rem; letter-spacing: 0.5px;">
+                                    ${isPublished ? 'ATIVO NO SITE' : (isImported ? 'RASCUNHO' : 'NO BLING')}
                                 </span>
                             </td>
                             <td style="padding: 12px; text-align: right;">
-                                ${!isImported ? `
-                                    <button class="btn-item-action" onclick="importProduct('${product.sku}')" title="Adicionar à Loja">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                ` : `
-                                    <button class="btn-item-action" onclick="toggleProductStatus('${product.sku}')" style="color: ${isPublished ? '#ef4444' : '#22c55e'};" title="${isPublished ? 'Inativar' : 'Ativar'}">
-                                        <i class="fas ${isPublished ? 'fa-eye-slash' : 'fa-eye'}"></i>
-                                    </button>
-                                `}
+                                <div style="display: flex; gap: 8px; justify-content: flex-end;">
+                                    ${!isImported ? `
+                                        <button class="btn-item-action" onclick="importProduct('${product.sku}')" style="background: #3b82f6; color: white;" title="Importar para o Site">
+                                            <i class="fas fa-plus"></i> Importar
+                                        </button>
+                                    ` : `
+                                        <button class="btn-item-action" onclick="toggleProductStatus('${product.sku}')" style="background: ${isPublished ? '#ef4444' : '#22c55e'}; color: white; width: 40px;" title="${isPublished ? 'Remover do Site' : 'Publicar no Site'}">
+                                            <i class="fas ${isPublished ? 'fa-eye-slash' : 'fa-eye'}"></i>
+                                        </button>
+                                    `}
+                                </div>
                             </td>
                         </tr>
                         `;
@@ -288,10 +319,6 @@ function renderBlingProductsList() {
             </table>
         </div>
     `;
-
-    document.getElementById('last-sync-date').innerText = new Date(financialData.lastBlingSync).toLocaleString('pt-BR');
-    const activeCount = importedProducts.filter(p => p.status === 'published').length;
-    document.getElementById('imported-count').innerText = activeCount;
 }
 
 function updateProductCategory(sku, categoryId) {

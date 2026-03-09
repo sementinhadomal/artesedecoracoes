@@ -381,55 +381,56 @@ button:hover {
 ::-webkit-scrollbar-thumb {
     background: var(--accent);
     border-radius: 10px;
+}
 
-    /* Integração Bling */
-    .btn-primary {
-        background: var(--accent);
-        color: var(--primary);
-        padding: 10px 20px;
-        border-radius: 8px;
-        font-weight: 600;
-        transition: 0.2s;
-        border: none;
-        cursor: pointer;
-    }
+/* Integração Bling */
+.btn-primary {
+    background: var(--accent);
+    color: var(--primary);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.2s;
+    border: none;
+    cursor: pointer;
+}
 
-    .btn-primary:hover:not(:disabled) {
-        box-shadow: 0 0 15px rgba(246, 186, 59, 0.3);
-        transform: translateY(-1px);
-    }
+.btn-primary:hover:not(:disabled) {
+    box-shadow: 0 0 15px rgba(246, 186, 59, 0.3);
+    transform: translateY(-1px);
+}
 
-    .btn-primary:disabled {
-        opacity: 0.5;
-        cursor: wait;
-    }
+.btn-primary:disabled {
+    opacity: 0.5;
+    cursor: wait;
+}
 
-    .btn-item-action {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid var(--glass-border);
-        color: white;
-        width: 36px;
-        height: 36px;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: 0.2s;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-    }
+.btn-item-action {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
 
-    .btn-item-action:hover:not(:disabled) {
-        background: var(--accent);
-        color: var(--primary);
-    }
+.btn-item-action:hover:not(:disabled) {
+    background: var(--accent);
+    color: var(--primary);
+}
 
-    .btn-item-action:disabled {
-        opacity: 0.3;
-        cursor: not-allowed;
-    }
+.btn-item-action:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
 
-    .table-controls input,
-    .table-controls select {
-        background: rgba(5, 20, 38, 0.5);
-        border: 1px solid var(--glass-border);
-    }
+.table-controls input,
+.table-controls select {
+    background: rgba(5, 20, 38, 0.5);
+    border: 1px solid var(--glass-border);
+}
