@@ -226,7 +226,8 @@ function calcularPVC() {
     document.getElementById("label-pvc-qtd").innerText = labelQtd;
     document.getElementById("res-pvc-reguas").innerText = quantidade + " " + unidadeQtd;
 
-    document.getElementById("res-pvc-rodaforro").innerText = formatNum(rodaforroLinear) + " m lin." + (tipoAfericao === 'area' ? '*' : '');
+    const rodaforroBarras = Math.ceil(rodaforroLinear / 6);
+    document.getElementById("res-pvc-rodaforro").innerText = rodaforroBarras + " un" + (tipoAfericao === 'area' ? '*' : '');
     document.getElementById("pvc-result-note").innerText = `* Cálculo considera 10% de perda para recortes. Rodaforro (ou cantoneira) estimado pelo perímetro bruto. ${notaAdicional}`;
 
     document.getElementById("results-pvc").classList.add("show");
