@@ -203,15 +203,22 @@ function calcularPVC() {
         else if (rendimentoRegua === 1.4) tamanhoTexto = "7m";
         else if (rendimentoRegua === 1.6) tamanhoTexto = "8m";
 
+        const metalonLinear = areaComPerda / 0.60;
+        const metalonBarras = Math.ceil(metalonLinear / 6);
+        document.getElementById("res-pvc-metalon").innerText = metalonBarras + " un";
+        document.getElementById("box-pvc-metalon").style.display = "";
+
         labelQtd = `Réguas (${tamanhoTexto})`;
         unidadeQtd = "pçs";
-        notaAdicional = `Calculado com base em réguas de ${tamanhoTexto} x 20cm.`;
+        notaAdicional = `Calculado com base em réguas de ${tamanhoTexto} x 20cm. Estrutura: 1 barra metalon a cada 60cm.`;
     } else {
         const rendimentoPlaca = parseFloat(document.getElementById("pvc-modular-rendimento").value) || 0.77;
         quantidade = Math.ceil(areaComPerda / rendimentoPlaca);
+        document.getElementById("box-pvc-metalon").style.display = "none";
+
         labelQtd = "Placas Modulares";
         unidadeQtd = "placas";
-        notaAdicional = `Calculado com base no rendimento de ${rendimentoPlaca}m² por placa/caixa.`;
+        notaAdicional = `Calculado com base no rendimento de ${rendimentoPlaca}m² por placa/caixa. Estrutura não incluída.`;
     }
 
     document.getElementById("res-pvc-area").innerText = formatNum(areaComPerda) + " m²";
