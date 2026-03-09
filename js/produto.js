@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const sku = urlParams.get('sku');
 
     if (!sku) {
-        window.location.href = 'loja.html';
+        window.location.href = 'produtos.html';
         return;
     }
 
@@ -43,7 +43,7 @@ function loadProductDetails(sku) {
                 <i class="fas fa-search fa-3x" style="color: #ef4444;"></i>
                 <h2 style="margin-top: 20px;">Produto não encontrado</h2>
                 <p style="color: #64748b;">O produto com o SKU "${sku}" não está disponível no momento.</p>
-                <a href="loja.html" class="btn-buy" style="max-width: 200px; margin: 30px auto;">Voltar para Loja</a>
+                <a href="produtos.html" class="btn-buy" style="max-width: 200px; margin: 30px auto;">Voltar para Produtos</a>
             </div>
         `;
         return;
