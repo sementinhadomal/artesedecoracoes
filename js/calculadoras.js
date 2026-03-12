@@ -80,7 +80,7 @@ function togglePisoInputs() {
 }
 
 function calcularPiso() {
-    const tipo = document.querySelector('input[name="piso-tipo-medida"]:checked').value;
+    const tipo = document.getElementById("piso-tipo-medida-val").value;
     const rendimentoCaixa = parseFloat(document.getElementById("piso-rendimento").value) || 2.5;
 
     let areaTotal = 0;
@@ -211,8 +211,8 @@ function togglePVCInputs() {
 }
 
 function calcularPVC() {
-    const tipoAfericao = document.querySelector('input[name="pvc-tipo-medida"]:checked').value;
-    const tipoForro = document.querySelector('input[name="pvc-tipo-forro"]:checked').value;
+    const tipoAfericao = document.getElementById("pvc-tipo-medida-val").value;
+    const tipoForro = document.getElementById("pvc-tipo-forro-val").value;
 
     let areaTotal = 0;
     let rodaforroLinear = 0;
@@ -351,7 +351,7 @@ function toggleDrywallInputs() {
 
 function calcularDrywall() {
     const sistema = document.getElementById("drywall-sistema").value;
-    const tipoAfericao = sistema.startsWith("forro") ? "area" : document.querySelector('input[name="drywall-tipo-medida"]:checked').value;
+    const tipoAfericao = sistema.startsWith("forro") ? "area" : document.getElementById("drywall-tipo-medida-val").value;
     
     let areaTotal = 0;
     let linearMetragem = 0;
