@@ -44,8 +44,8 @@
 
 .calc-tab.active {
     background: white;
-    color: #00a859;
-    border-bottom-color: #00a859;
+    color: var(--primary-blue);
+    border-bottom-color: var(--accent-yellow);
 }
 
 /* Content */
@@ -178,16 +178,16 @@
 }
 
 .result-item.highlight {
-    background: #f0fff4;
-    border-bottom-color: #00a859;
+    background: #eef4ff;
+    border-bottom-color: var(--primary-blue);
 }
 
 .result-item.highlight .result-label {
-    color: #006b38; /* Verde escuro para o rótulo no destaque */
+    color: var(--secondary-blue);
 }
 
 .result-item.highlight .result-value {
-    color: #00a859;
+    color: var(--primary-blue);
 }
 
 .result-label {
@@ -199,7 +199,7 @@
 
 .result-value {
     font-size: 1.8rem;
-    color: #00a859;
+    color: var(--primary-blue);
     font-weight: 700;
 }
 
