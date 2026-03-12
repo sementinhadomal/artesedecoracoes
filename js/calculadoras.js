@@ -48,8 +48,16 @@ function formatNum(num) {
 }
 
 // LAMINADO / VINÍLICO
+function setPisoMeasureType(type, element) {
+    const parent = element.parentElement;
+    parent.querySelectorAll('.segment-item').forEach(item => item.classList.remove('active'));
+    element.classList.add('active');
+    document.getElementById("piso-tipo-medida-val").value = type;
+    togglePisoInputs();
+}
+
 function togglePisoInputs() {
-    const tipo = document.querySelector('input[name="piso-tipo-medida"]:checked').value;
+    const tipo = document.getElementById("piso-tipo-medida-val").value;
     const containerMedidas = document.getElementById("piso-medidas-container");
     const containerArea = document.getElementById("piso-area-container");
     const inputLargura = document.getElementById("piso-largura");
@@ -124,32 +132,70 @@ function calcularPiso() {
     document.getElementById("res-piso-silicone").innerText = silicone + " tubos";
 
     document.getElementById("results-piso").classList.add("show");
+}// FORRO
+function setForroType(type, element) {
+    const parent = element.parentElement;
+    parent.querySelectorAll('.system-card, .segment-item').forEach(item => item.classList.remove('active'));
+    element.classList.add('active');
+    document.getElementById("pvc-tipo-forro-val").value = type;
+    toggleForroOptions();
 }
 
-// FORRO
+function setPVCMeasureType(type, element) {
+    const parent = element.parentElement;
+    parent.querySelectorAll('.segment-item').forEach(item => item.classList.remove('active'));
+    element.classList.add('active');
+    document.getElementById("pvc-tipo-medida-val").value = type;
+    togglePVCInputs();
+}
+
 function toggleForroOptions() {
-    const tipoForro = document.querySelector('input[name="pvc-tipo-forro"]:checked').value;
+    const tipo = document.getElementById("pvc-tipo-forro-val").value;
     const opcoesRegua = document.getElementById("pvc-opcoes-regua");
     const opcoesModular = document.getElementById("pvc-opcoes-modular");
 
-    if (tipoForro === "regua") {
+    if (tipo === "regua") {
         opcoesRegua.style.display = "grid";
         opcoesModular.style.display = "none";
     } else {
         opcoesRegua.style.display = "none";
         opcoesModular.style.display = "grid";
+        updateModularRendimento();
+    }
+}
+
+function updateModularRendimento() {
+    const tipo = document.getElementById("pvc-modular-tipo").value;
+    const inputRendimento = document.getElementById("pvc-modular-rendimento");
+    const labelRendimento = document.getElementById("label-modular-rendimento");
+
+    if (tipo === "isopor") {
+        inputRendimento.value = "0.781";
+        inputRendimento.readOnly = true;
+        labelRendimento.innerText = "Rendimento Placa (1.25x0.625)";
+    } else if (tipo === "fibra") {
+        inputRendimento.value = "0.744"; // 1.22 x 0.61
+        inputRendimento.readOnly = true;
+        labelRendimento.innerText = "Rendimento Placa (1.22x0.61)";
+    } else if (tipo === "pvc") {
+        inputRendimento.value = "0.781";
+        inputRendimento.readOnly = true;
+        labelRendimento.innerText = "Rendimento Placa (1.25x0.625)";
+    } else {
+        inputRendimento.readOnly = false;
+        labelRendimento.innerText = "Rendimento Manual (m²)";
     }
 }
 
 function togglePVCInputs() {
-    const tipo = document.querySelector('input[name="pvc-tipo-medida"]:checked').value;
+    const tipoMedida = document.getElementById("pvc-tipo-medida-val").value;
     const containerMedidas = document.getElementById("pvc-medidas-container");
     const containerArea = document.getElementById("pvc-area-container");
     const inputLargura = document.getElementById("pvc-largura");
     const inputComprimento = document.getElementById("pvc-comprimento");
     const inputAreaTotal = document.getElementById("pvc-area-total");
 
-    if (tipo === "lxc") {
+    if (tipoMedida === "lxc") {
         containerMedidas.style.display = "grid";
         containerArea.style.display = "none";
         inputLargura.required = true;
@@ -212,13 +258,19 @@ function calcularPVC() {
         unidadeQtd = "pçs";
         notaAdicional = `Calculado com base em réguas de ${tamanhoTexto} x 20cm. Estrutura: 1 barra metalon a cada 60cm.`;
     } else {
-        const rendimentoPlaca = parseFloat(document.getElementById("pvc-modular-rendimento").value) || 0.77;
+        const rendimentoPlaca = parseFloat(document.getElementById("pvc-modular-rendimento").value) || 0.781;
+        const subTipo = document.getElementById("pvc-modular-tipo").value;
         quantidade = Math.ceil(areaComPerda / rendimentoPlaca);
         document.getElementById("box-pvc-metalon").style.display = "none";
 
-        labelQtd = "Placas Modulares (Isopor/Fibra)";
-        unidadeQtd = "placas";
-        notaAdicional = `Calculado com base no rendimento de ${rendimentoPlaca}m² por placa/caixa. Estrutura não incluída.`;
+        let nomePlaca = "Placas Modulares";
+        if (subTipo === "isopor") nomePlaca = "Placas de Isopor";
+        else if (subTipo === "fibra") nomePlaca = "Placas de Fibra Mineral";
+        else if (subTipo === "pvc") nomePlaca = "Placas de PVC Modular";
+
+        labelQtd = nomePlaca;
+        unidadeQtd = "unidades";
+        notaAdicional = `Calculado com base no rendimento de ${rendimentoPlaca}m² por placa. Estrutura não incluída.`;
     }
 
     document.getElementById("res-pvc-area").innerText = formatNum(areaComPerda) + " m²";
@@ -234,66 +286,186 @@ function calcularPVC() {
 }
 
 // DRYWALL PAREDE
+function selectDrywallSystem(sistema, element) {
+    // Atualizar UI dos cards (escopado ao grid pai)
+    const parent = element.parentElement;
+    parent.querySelectorAll('.system-card').forEach(card => card.classList.remove('active'));
+    element.classList.add('active');
+
+    // Atualizar select oculto e disparar toggle
+    const select = document.getElementById("drywall-sistema");
+    select.value = sistema;
+    toggleDrywallInputs();
+}
+
+function setDrywallMeasureType(type, element) {
+    // Atualizar UI do seletor segmentado
+    const parent = element.parentElement;
+    parent.querySelectorAll('.segment-item').forEach(item => item.classList.remove('active'));
+    element.classList.add('active');
+
+    // Atualizar valor oculto
+    document.getElementById("drywall-tipo-medida-val").value = type;
+    
+    // Disparar lógica de toggle
+    toggleDrywallInputs();
+}
+
 function toggleDrywallInputs() {
-    const tipo = document.querySelector('input[name="drywall-tipo-medida"]:checked').value;
+    const sistema = document.getElementById("drywall-sistema").value;
+    const tipoMedida = document.getElementById("drywall-tipo-medida-val").value;
+    
     const containerMedidas = document.getElementById("drywall-medidas-container");
     const containerArea = document.getElementById("drywall-area-container");
+    const labelLXC = document.getElementById("label-drywall-lxc");
     const inputLargura = document.getElementById("drywall-largura");
     const inputAltura = document.getElementById("drywall-altura");
     const inputAreaTotal = document.getElementById("drywall-area-total");
 
-    if (tipo === "lxc") {
-        containerMedidas.style.display = "grid";
-        containerArea.style.display = "none";
-        inputLargura.required = true;
-        inputAltura.required = true;
-        inputAreaTotal.required = false;
-    } else {
+    // Forros só usam Área
+    if (sistema.startsWith("forro")) {
+        document.getElementById("drywall-medida-toggle-row").style.display = "none";
         containerMedidas.style.display = "none";
         containerArea.style.display = "grid";
         inputLargura.required = false;
         inputAltura.required = false;
         inputAreaTotal.required = true;
+    } else {
+        document.getElementById("drywall-medida-toggle-row").style.display = "flex";
+        if (tipoMedida === "lxc") {
+            containerMedidas.style.display = "grid";
+            containerArea.style.display = "none";
+            inputLargura.required = true;
+            inputAltura.required = true;
+            inputAreaTotal.required = false;
+            labelLXC.innerText = (sistema.startsWith("revest")) ? "Largura x Altura" : "Largura x Altura";
+        } else {
+            containerMedidas.style.display = "none";
+            containerArea.style.display = "grid";
+            inputLargura.required = false;
+            inputAltura.required = false;
+            inputAreaTotal.required = true;
+        }
     }
 }
 
 function calcularDrywall() {
-    const tipo = document.querySelector('input[name="drywall-tipo-medida"]:checked').value;
+    const sistema = document.getElementById("drywall-sistema").value;
+    const tipoAfericao = sistema.startsWith("forro") ? "area" : document.querySelector('input[name="drywall-tipo-medida"]:checked').value;
+    
     let areaTotal = 0;
+    let linearMetragem = 0;
+    let alturaParede = 0;
 
-    if (tipo === "lxc") {
-        const largura = parseFloat(document.getElementById("drywall-largura").value);
-        const altura = parseFloat(document.getElementById("drywall-altura").value);
-        if (!largura || !altura) return;
-        areaTotal = largura * altura;
+    if (tipoAfericao === "lxc") {
+        linearMetragem = parseFloat(document.getElementById("drywall-largura").value);
+        alturaParede = parseFloat(document.getElementById("drywall-altura").value);
+        if (!linearMetragem || !alturaParede) return;
+        areaTotal = linearMetragem * alturaParede;
     } else {
-        const areaDigitada = parseFloat(document.getElementById("drywall-area-total").value);
-        if (!areaDigitada) return;
-        areaTotal = areaDigitada;
+        areaTotal = parseFloat(document.getElementById("drywall-area-total").value);
+        if (!areaTotal) return;
+        // Para estimativa de perfis quando só tem área:
+        linearMetragem = Math.sqrt(areaTotal); 
+        alturaParede = Math.sqrt(areaTotal);
     }
 
-    // Coeficientes Gypsum por m² de Parede SAD (Simples)
-    const chapasM2 = areaTotal * 2.10; // Inclui as 2 faces + perdas
-    const guiaM = areaTotal * 0.70;
-    const montanteM = areaTotal * 2.30;
-    const paraTA = areaTotal * 25;
-    const paraLA = areaTotal * 2;
-    const massaKg = areaTotal * 0.70;
-    const fitaM = areaTotal * 3;
+    const grid = document.getElementById("drywall-results-grid");
+    const resArea = document.getElementById("res-drywall-area");
+    const resChapas = document.getElementById("res-drywall-chapas");
+    const labelChapas = document.getElementById("label-drywall-chapas");
+    const resultNote = document.getElementById("drywall-result-note");
 
-    // Conversão para unidades comerciais (Barras de 3m)
-    const guiasUn = Math.ceil(guiaM / 3);
-    const montantesUn = Math.ceil(montanteM / 3);
+    // Limpar itens anteriores (manter Área e Chapas que são fixos no HTML)
+    while (grid.children.length > 2) {
+        grid.removeChild(grid.lastChild);
+    }
 
-    document.getElementById("res-drywall-area").innerText = formatNum(areaTotal) + " m²";
-    document.getElementById("res-drywall-chapas").innerText = formatNum(chapasM2) + " m²";
-    document.getElementById("res-drywall-guia").innerText = guiasUn + " un";
-    document.getElementById("res-drywall-montante").innerText = montantesUn + " un";
-    document.getElementById("res-drywall-par-ta").innerText = Math.ceil(paraTA) + " un";
-    document.getElementById("res-drywall-par-la").innerText = Math.ceil(paraLA) + " un";
-    document.getElementById("res-drywall-massa").innerText = formatNum(massaKg) + " kg";
-    document.getElementById("res-drywall-fita").innerText = formatNum(fitaM) + " m";
+    let materials = [];
+    let note = "";
 
+    if (sistema === "parede") {
+        // SAD - Parede Simples (2 faces)
+        materials = [
+            { label: "Guia 70mm (3m)", val: Math.ceil(areaTotal * 0.70 / 3), unit: "un" },
+            { label: "Montante 70mm (3m)", val: Math.ceil(areaTotal * 2.30 / 3), unit: "un" },
+            { label: "Parafuso TA 25", val: Math.ceil(areaTotal * 25), unit: "un" },
+            { label: "Parafuso LA 9.5", val: Math.ceil(areaTotal * 2), unit: "un" },
+            { label: "Massa Rejunte", val: (areaTotal * 0.70).toFixed(1), unit: "kg" },
+            { label: "Fita de Junta", val: (areaTotal * 3).toFixed(1), unit: "m" }
+        ];
+        resArea.innerText = formatNum(areaTotal) + " m²";
+        labelChapas.innerText = "Chapas ST 12.5mm (2 faces)";
+        resChapas.innerText = formatNum(areaTotal * 2.10) + " m²";
+        note = "* Sistema Gypsum SAD (Simples Alvenaria Drywall). Coeficientes oficiais por m² de parede.";
+    } 
+    else if (sistema === "forro-fga") {
+        // FGA - Aramado
+        materials = [
+            { label: "FGA Cola", val: (areaTotal * 1.25).toFixed(1), unit: "kg" },
+            { label: "Junção H (FGA)", val: Math.ceil(areaTotal * 1.5), unit: "un" },
+            { label: "Arame 18", val: (areaTotal * 0.05).toFixed(2), unit: "kg" },
+            { label: "Fita de Junta", val: (areaTotal * 1.5).toFixed(1), unit: "m" },
+            { label: "Massa Rejunte", val: (areaTotal * 0.45).toFixed(1), unit: "kg" }
+        ];
+        resArea.innerText = formatNum(areaTotal) + " m²";
+        labelChapas.innerText = "Chapas ST FGA";
+        resChapas.innerText = formatNum(areaTotal * 1.05) + " m²";
+        note = "* Sistema Gypsum FGA (Forro Gesso Aramado). Ideal para vãos pequenos e acabamento liso.";
+    }
+    else if (sistema === "forro-fge") {
+        // FGE - Estruturado
+        materials = [
+            { label: "Perfil S47 (3m)", val: Math.ceil(areaTotal * 1.70 / 3), unit: "un" },
+            { label: "Regulador S47", val: Math.ceil(areaTotal * 1.25), unit: "un" },
+            { label: "Parafuso TA 25", val: Math.ceil(areaTotal * 15), unit: "un" },
+            { label: "Massa Rejunte", val: (areaTotal * 0.45).toFixed(1), unit: "kg" },
+            { label: "Fita de Junta", val: (areaTotal * 1.5).toFixed(1), unit: "m" }
+        ];
+        resArea.innerText = formatNum(areaTotal) + " m²";
+        labelChapas.innerText = "Chapas ST 12.5mm";
+        resChapas.innerText = formatNum(areaTotal * 1.05) + " m²";
+        note = "* Sistema Gypsum FGE (Forro Gesso Estruturado). Recomenda-se uso de Perfis S47 e Tirantes.";
+    }
+    else if (sistema === "revest-colado") {
+        // Revestimento Colado
+        materials = [
+            { label: "Cola Gypsum (Gesso Cola)", val: (areaTotal * 2.5).toFixed(1), unit: "kg" },
+            { label: "Massa Rejunte", val: (areaTotal * 0.40).toFixed(1), unit: "kg" },
+            { label: "Fita de Junta", val: (areaTotal * 1.5).toFixed(1), unit: "m" }
+        ];
+        resArea.innerText = formatNum(areaTotal) + " m²";
+        labelChapas.innerText = "Chapas ST/RU 12.5mm";
+        resChapas.innerText = formatNum(areaTotal * 1.05) + " m²";
+        note = "* Revestimento Colado. Aplicação direta em paredes de alvenaria niveladas.";
+    }
+    else if (sistema === "revest-estrut") {
+        // Revestimento Estruturado (Contra-parede)
+        materials = [
+            { label: "Montante 48/60/70mm", val: Math.ceil(areaTotal * 2.50 / 3), unit: "un" },
+            { label: "Guia Correspondente", val: Math.ceil(areaTotal * 0.80 / 3), unit: "un" },
+            { label: "Parafuso TA 25", val: Math.ceil(areaTotal * 18), unit: "un" },
+            { label: "Massa Rejunte", val: (areaTotal * 0.45).toFixed(1), unit: "kg" },
+            { label: "Fita de Junta", val: (areaTotal * 1.5).toFixed(1), unit: "m" }
+        ];
+        resArea.innerText = formatNum(areaTotal) + " m²";
+        labelChapas.innerText = "Chapas ST/RU/RF 12.5mm";
+        resChapas.innerText = formatNum(areaTotal * 1.05) + " m²";
+        note = "* Revestimento Estruturado. Ideal para isolamento termoacústico e correção de prumo.";
+    }
+
+    // Renderizar materiais dinâmicos
+    materials.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "result-item";
+        div.innerHTML = `
+            <div class="result-label">${item.label}</div>
+            <div class="result-value">${item.val} ${item.unit}</div>
+        `;
+        grid.appendChild(div);
+    });
+
+    resultNote.innerText = note;
     document.getElementById("results-drywall").classList.add("show");
 }
 

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadoras de Materiais | Artes e Decorações</title>
     <meta name="description"
-        content="Calcule a quantidade estimada de piso laminado, forro PVC ou drywall para sua obra com nossas calculadoras de materiais exclusivas.">
+        content="Calcule a quantidade estimada de piso laminado, forros ou drywall para sua obra com nossas calculadoras de materiais exclusivas.">
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/calculadoras.css">
     <link rel="icon" type="image/png" href="img/logo.png">
@@ -93,18 +93,14 @@
                             <p>Informe as medidas do ambiente (em metros).</p>
                         </div>
                         <form id="form-piso">
-                            <div class="calc-form-row" style="margin-bottom: 20px;">
-                                <div class="calc-group" style="flex-direction: row; gap: 20px;">
-                                    <label
-                                        style="display: flex; align-items: center; gap: 8px; font-weight: 500; cursor: pointer;">
-                                        <input type="radio" name="piso-tipo-medida" value="lxc" checked
-                                            onchange="togglePisoInputs()"> Largura x Comprimento
-                                    </label>
-                                    <label
-                                        style="display: flex; align-items: center; gap: 8px; font-weight: 500; cursor: pointer;">
-                                        <input type="radio" name="piso-tipo-medida" value="area"
-                                            onchange="togglePisoInputs()"> Área Total (m²)
-                                    </label>
+                            <div class="calc-form-row" style="margin-bottom: 25px;">
+                                <div class="calc-group">
+                                    <label>Tipo de Medida</label>
+                                    <div class="segmented-control">
+                                        <div class="segment-item active" onclick="setPisoMeasureType('lxc', this)">Dimensões (LxC)</div>
+                                        <div class="segment-item" onclick="setPisoMeasureType('area', this)">Área Total (m²)</div>
+                                    </div>
+                                    <input type="hidden" id="piso-tipo-medida-val" value="lxc">
                                 </div>
                             </div>
                             <div class="calc-form-row" id="piso-medidas-container">
@@ -226,32 +222,30 @@
                             <p>Selecione o tipo de forro e informe as medidas do teto.</p>
                         </div>
                         <form id="form-pvc">
-                            <div class="calc-form-row" style="margin-bottom: 20px;">
-                                <div class="calc-group" style="flex-direction: row; gap: 20px;">
-                                    <label
-                                        style="display: flex; align-items: center; gap: 8px; font-weight: 500; cursor: pointer;">
-                                        <input type="radio" name="pvc-tipo-forro" value="regua" checked
-                                            onchange="toggleForroOptions()"> Forro PVC Régua
-                                    </label>
-                                    <label
-                                        style="display: flex; align-items: center; gap: 8px; font-weight: 500; cursor: pointer;">
-                                        <input type="radio" name="pvc-tipo-forro" value="modular"
-                                            onchange="toggleForroOptions()"> Forro Modular / Isopor / Fibra Mineral
-                                    </label>
+                            <div class="calc-form-row">
+                                <div class="calc-group">
+                                    <label>Tipo de Forro</label>
+                                    <div class="system-selector-grid">
+                                        <div class="system-card active" onclick="setForroType('regua', this)">
+                                            <i class="fas fa-grip-lines"></i>
+                                            <span>PVC Régua</span>
+                                        </div>
+                                        <div class="system-card" onclick="setForroType('modular', this)">
+                                            <i class="fas fa-th-large"></i>
+                                            <span>Forro Modular</span>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="pvc-tipo-forro-val" value="regua">
                                 </div>
                             </div>
-                            <div class="calc-form-row" style="margin-bottom: 20px;">
-                                <div class="calc-group" style="flex-direction: row; gap: 20px;">
-                                    <label
-                                        style="display: flex; align-items: center; gap: 8px; font-weight: 500; cursor: pointer;">
-                                        <input type="radio" name="pvc-tipo-medida" value="lxc" checked
-                                            onchange="togglePVCInputs()"> Largura x Comprimento
-                                    </label>
-                                    <label
-                                        style="display: flex; align-items: center; gap: 8px; font-weight: 500; cursor: pointer;">
-                                        <input type="radio" name="pvc-tipo-medida" value="area"
-                                            onchange="togglePVCInputs()"> Área Total (m²)
-                                    </label>
+                            <div class="calc-form-row" style="margin-bottom: 25px;">
+                                <div class="calc-group">
+                                    <label>Tipo de Medida</label>
+                                    <div class="segmented-control">
+                                        <div class="segment-item active" onclick="setPVCMeasureType('lxc', this)">Dimensões (LxC)</div>
+                                        <div class="segment-item" onclick="setPVCMeasureType('area', this)">Área Total (m²)</div>
+                                    </div>
+                                    <input type="hidden" id="pvc-tipo-medida-val" value="lxc">
                                 </div>
                             </div>
                             <div class="calc-form-row" id="pvc-medidas-container">
@@ -301,15 +295,22 @@
 
                             <div class="calc-form-row" id="pvc-opcoes-modular" style="display: none;">
                                 <div class="calc-group">
-                                    <label>Rendimento por Placa/Caixa (m²)</label>
-                                    <div class="calc-input-wrap">
-                                        <input type="number" id="pvc-modular-rendimento" step="0.01" min="0.01"
-                                            value="0.77" placeholder="Ex: 0.77 (para placa de 1.243x0.62)">
-                                        <span class="unit">m²</span>
-                                    </div>
+                                    <label>Tipo de Placa Modular</label>
+                                    <select id="pvc-modular-tipo" onchange="updateModularRendimento()"
+                                        style="padding: 15px; border: 2px solid var(--border-color); border-radius: var(--radius-md); font-size: 1rem; width: 100%;">
+                                        <option value="isopor" selected>Isopor (Padrão 1.25x0.625)</option>
+                                        <option value="fibra">Fibra Mineral (Padrão 1.22x0.61)</option>
+                                        <option value="pvc">PVC Modular (Padrão 1.25x0.625)</option>
+                                        <option value="custom">Outro (Rendimento Manual)</option>
+                                    </select>
                                 </div>
                                 <div class="calc-group">
-                                    <!-- Espaço opcional ao lado -->
+                                    <label id="label-modular-rendimento">Rendimento da Placa (m²)</label>
+                                    <div class="calc-input-wrap">
+                                        <input type="number" id="pvc-modular-rendimento" step="0.001" min="0.01"
+                                            value="0.781" placeholder="Ex: 0.781">
+                                        <span class="unit">m²</span>
+                                    </div>
                                 </div>
                             </div>
 
@@ -349,22 +350,50 @@
                     <!-- DRYWALL TAB -->
                     <div id="tab-drywall" class="calc-content">
                         <div class="calc-header">
-                            <h2 class="premium-font">Calcular Drywall (Parede 2 Faces)</h2>
-                            <p>Informe as medidas exatas da parede divisória desejada.</p>
+                            <h2 class="premium-font">Calculadora Drywall Gypsum</h2>
+                            <p>Selecione o sistema desejado para o cálculo técnico oficial.</p>
                         </div>
                         <form id="form-drywall">
-                            <div class="calc-form-row" style="margin-bottom: 20px;">
-                                <div class="calc-group" style="flex-direction: row; gap: 20px;">
-                                    <label
-                                        style="display: flex; align-items: center; gap: 8px; font-weight: 500; cursor: pointer;">
-                                        <input type="radio" name="drywall-tipo-medida" value="lxc" checked
-                                            onchange="toggleDrywallInputs()"> Largura x Altura
-                                    </label>
-                                    <label
-                                        style="display: flex; align-items: center; gap: 8px; font-weight: 500; cursor: pointer;">
-                                        <input type="radio" name="drywall-tipo-medida" value="area"
-                                            onchange="toggleDrywallInputs()"> Área Total (m²)
-                                    </label>
+                            <div class="system-selector-grid">
+                                <div class="system-card active" onclick="selectDrywallSystem('parede', this)">
+                                    <i class="fas fa-columns"></i>
+                                    <span>Parede</span>
+                                </div>
+                                <div class="system-card" onclick="selectDrywallSystem('forro-fga', this)">
+                                    <i class="fas fa-th"></i>
+                                    <span>Forro FGA (Aramado)</span>
+                                </div>
+                                <div class="system-card" onclick="selectDrywallSystem('forro-fge', this)">
+                                    <i class="fas fa-layer-group"></i>
+                                    <span>Forro FGE (Estruturado)</span>
+                                </div>
+                                <div class="system-card" onclick="selectDrywallSystem('revest-colado', this)">
+                                    <i class="fas fa-fill-drip"></i>
+                                    <span>Revestimento Colado</span>
+                                </div>
+                                <div class="system-card" onclick="selectDrywallSystem('revest-estrut', this)">
+                                    <i class="fas fa-vector-square"></i>
+                                    <span>Revestimento Estruturado</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Hidden select for form compatibility -->
+                            <select id="drywall-sistema" style="display: none;">
+                                <option value="parede" selected>Parede Drywall (SAD - Simples)</option>
+                                <option value="forro-fga">Forro FGA (Aramado / Junção H)</option>
+                                <option value="forro-fge">Forro FGE (Estruturado / Perfil S47)</option>
+                                <option value="revest-colado">Revestimento Colado (Direto na Alvenaria)</option>
+                                <option value="revest-estrut">Revestimento Estruturado (Contra-parede)</option>
+                            </select>
+                            <div class="calc-form-row" style="margin-bottom: 25px;" id="drywall-medida-toggle-row">
+                                <div class="calc-group">
+                                    <label id="label-drywall-measure-type">Tipo de Medida</label>
+                                    <div class="segmented-control">
+                                        <div class="segment-item active" onclick="setDrywallMeasureType('lxc', this)">Dimensões (LxA)</div>
+                                        <div class="segment-item" onclick="setDrywallMeasureType('area', this)">Área Total (m²)</div>
+                                    </div>
+                                    <!-- Keep hidden inputs for compatibility if needed, or update logic -->
+                                    <input type="hidden" name="drywall-tipo-medida-hidden" id="drywall-tipo-medida-val" value="lxc">
                                 </div>
                             </div>
                             <div class="calc-form-row" id="drywall-medidas-container">
@@ -399,43 +428,19 @@
                         </form>
 
                         <div id="results-drywall" class="calc-results">
-                            <h3>Estimativa de Materiais (Padrão Gypsum)</h3>
-                            <div class="result-grid">
+                            <h3>Estimativa Técnica Gypsum</h3>
+                            <div class="result-grid" id="drywall-results-grid">
                                 <div class="result-item">
-                                    <div class="result-label">Área de Parede</div>
+                                    <div class="result-label">Área Calculada</div>
                                     <div class="result-value" id="res-drywall-area">0 m²</div>
                                 </div>
-                                <div class="result-item highlight">
-                                    <div class="result-label">Chapas ST 12.5mm</div>
+                                <div class="result-item highlight" id="box-drywall-chapas">
+                                    <div class="result-label" id="label-drywall-chapas">Chapas 12.5mm</div>
                                     <div class="result-value" id="res-drywall-chapas">0 m²</div>
                                 </div>
-                                <div class="result-item">
-                                    <div class="result-label">Guia 70mm (3m)</div>
-                                    <div class="result-value" id="res-drywall-guia">0 un</div>
-                                </div>
-                                <div class="result-item">
-                                    <div class="result-label">Montante 70mm (3m)</div>
-                                    <div class="result-value" id="res-drywall-montante">0 un</div>
-                                </div>
-                                <div class="result-item">
-                                    <div class="result-label">Parafuso TA 25</div>
-                                    <div class="result-value" id="res-drywall-par-ta">0 un</div>
-                                </div>
-                                <div class="result-item">
-                                    <div class="result-label">Parafuso LA 9.5</div>
-                                    <div class="result-value" id="res-drywall-par-la">0 un</div>
-                                </div>
-                                <div class="result-item">
-                                    <div class="result-label">Massa Rejunte</div>
-                                    <div class="result-value" id="res-drywall-massa">0 kg</div>
-                                </div>
-                                <div class="result-item">
-                                    <div class="result-label">Fita de Junta</div>
-                                    <div class="result-value" id="res-drywall-fita">0 m</div>
-                                </div>
+                                <!-- Itens dinâmicos via JS -->
                             </div>
-                            <p class="result-note">* Estimativa baseada no sistema Gypsum SAD (Parede Simples). Consumos
-                                médios por m² para montantes a cada 600mm. Inclui margem de 5% para perdas nas chapas.
+                            <p class="result-note" id="drywall-result-note">* Estimativa baseada no sistema Gypsum oficial. Inclui margem de segurança para perdas.
                             </p>
                             <div style="text-align: center; margin-top: 25px;">
                                 <a href="https://wa.me/5511999201062?text=Olá,%20fiz%20um%20cálculo%20no%20site%20e%20gostaria%20de%20cotar%20Paredes%20Drywall."
@@ -587,7 +592,7 @@
                 style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 60px;">
                 <div>
                     <img src="img/logo.png" alt="Artes e Decorações Logo" style="height: 60px; margin-bottom: 20px;">
-                    <p style="opacity: 0.7; font-size: 0.9rem;">Referência em materiais para construção e acabamento em
+                    <p style="opacity: 0.7; font-size: 0.9rem;">Distribuidor referência em materiais para construção e acabamento em
                         Mogi das Cruzes há mais de 4 décadas.</p>
                 </div>
                 <div>
@@ -595,7 +600,7 @@
                     <ul style="list-style: none; opacity: 0.7; font-size: 0.9rem; line-height: 2;">
                         <li><a href="#" style="color: white; text-decoration: none;">Pisos Laminados</a></li>
                         <li><a href="#" style="color: white; text-decoration: none;">Drywall</a></li>
-                        <li><a href="#" style="color: white; text-decoration: none;">Forros PVC/Modular</a></li>
+                        <li><a href="servicos.html" style="color: white; text-decoration: none;">Forros (PVC e Modular)</a></li>
                         <li><a href="#" style="color: white; text-decoration: none;">Persianas e Papel de Parede</a>
                         </li>
                     </ul>
