@@ -4,21 +4,324 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produtos Online | Artes e Decorações - Materiais para Obra</title>
+    <title>Produtos | Artes e Decorações - Materiais para Obra</title>
+    <meta name="description" content="Catálogo completo de materiais para construção e acabamento: Pisos, Forros, Drywall, Divisórias e muito mais.">
     <link rel="stylesheet" href="css/index.css">
     <link rel="icon" type="image/png" href="img/logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .category-item.active {
-            color: var(--primary-blue) !important;
-            font-weight: 700 !important;
-            border-left: 3px solid var(--accent-yellow);
-            padding-left: 8px;
+        /* ===== PRODUTOS PAGE STYLES ===== */
+        .produtos-hero {
+            background: linear-gradient(135deg, #051426 0%, #0a2444 60%, #0c3060 100%);
+            color: white;
+            padding: 80px 0 60px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .category-item {
-            transition: 0.3s;
+        .produtos-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 193, 7, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .produtos-hero h1 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 15px;
+            letter-spacing: -0.03em;
+        }
+
+        .produtos-hero h1 span {
+            color: var(--accent-yellow);
+        }
+
+        .produtos-hero p {
+            font-size: 1.05rem;
+            opacity: 0.75;
+            max-width: 550px;
+        }
+
+        .produtos-search-bar {
+            background: white;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 8px 8px 20px;
+            max-width: 560px;
+            margin-top: 35px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+        }
+
+        .produtos-search-bar i {
+            color: #94a3b8;
+            font-size: 1rem;
+        }
+
+        .produtos-search-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 0.95rem;
+            color: #334155;
+            background: transparent;
+        }
+
+        .produtos-search-bar button {
+            background: var(--accent-yellow);
+            color: #051426;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 10px 22px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+
+        .produtos-search-bar button:hover {
+            background: #e5b200;
+        }
+
+        /* ===== CATEGORY TAGS ===== */
+        .category-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 28px 0 20px;
+        }
+
+        .cat-tag {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 18px;
+            border-radius: 50px;
+            border: 2px solid #e2e8f0;
+            background: white;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-decoration: none;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+
+        .cat-tag:hover, .cat-tag.active {
+            background: var(--primary-blue);
+            border-color: var(--primary-blue);
+            color: white;
+            box-shadow: 0 4px 14px rgba(10, 36, 68, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .cat-tag i {
+            font-size: 0.9rem;
+        }
+
+        /* ===== FEATURED CATEGORIES (Big image blocks) ===== */
+        .featured-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+
+        .feat-cat-card {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            height: 200px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+        }
+
+        .feat-cat-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+        }
+
+        .feat-cat-card .bg-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(160deg, var(--bg-color) 0%, var(--bg-color-end) 100%);
+            transition: opacity 0.3s;
+        }
+
+        .feat-cat-card:hover .bg-overlay {
+            opacity: 0.9;
+        }
+
+        .feat-cat-card .cat-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            color: white;
+        }
+
+        .feat-cat-card .cat-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
             display: block;
+        }
+
+        .feat-cat-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .feat-cat-card p {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        /* ===== PRODUCTS SECTION ===== */
+        .products-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .products-header h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        #results-count {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            background: #f1f5f9;
+            padding: 5px 12px;
+            border-radius: 20px;
+        }
+
+        /* Product Cards */
+        #product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 24px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid #e9edf4;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+            border-color: #c8d6f8;
+        }
+
+        .product-card-img {
+            height: 190px;
+            background: #f8fafc;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-card-img img {
+            transform: scale(1.07);
+        }
+
+        .product-card-body {
+            padding: 18px;
+        }
+
+        .product-card-body h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1e293b;
+            min-height: 2.5em;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .product-card-price {
+            color: var(--primary-blue);
+            font-weight: 800;
+            font-size: 1.3rem;
+            margin-bottom: 14px;
+        }
+
+        .product-card-sku {
+            font-size: 0.72rem;
+            color: #94a3b8;
+            margin-bottom: 14px;
+        }
+
+        .product-card-btn {
+            display: block;
+            width: 100%;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 11px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .product-card-btn:hover {
+            background: #083580;
+        }
+
+        /* No Results */
+        .no-results-box {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 14px;
+            border: 1px solid #e9edf4;
+            grid-column: 1 / -1;
+        }
+
+        .no-results-box i {
+            font-size: 3rem;
+            color: #cbd5e1;
+            margin-bottom: 16px;
+        }
+
+        .no-results-box p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
         }
     </style>
 </head>
@@ -67,168 +370,108 @@
         </div>
     </header>
 
-    <main style="padding: 60px 0;">
-        <!-- Mobile Sidebar Toggle & Backdrop -->
-        <button id="toggle-categorias" class="btn-toggle-categorias" aria-label="Ver Categorias">
-            <i class="fas fa-list"></i> Categorias
-        </button>
-        <div id="sidebar-backdrop" class="sidebar-backdrop"></div>
+    <!-- Hero Banner -->
+    <div class="produtos-hero">
         <div class="container">
-            <div style="display: flex; gap: 40px;" class="loja-layout">
-                <!-- Sidebar Categories -->
-                <aside id="sidebar-categorias" class="sidebar-categorias" style="width: 250px; flex-shrink: 0;">
-                    <h3
-                        style="margin-bottom: 20px; border-bottom: 2px solid var(--accent-yellow); padding-bottom: 10px;">
-                        Categorias</h3>
-                    <ul style="list-style: none; line-height: 2.5;">
-                        <!-- Piso Laminado -->
-                        <li style="margin-bottom: 5px;">
-                            <a href="#" style="text-decoration: none; color: var(--primary-blue); font-weight: 700;">
-                                Piso Laminado
-                            </a>
-                            <ul style="list-style: none; margin-left: 20px; line-height: 2; font-size: 0.9rem;">
-                                <li><a href="#" style="text-decoration: none; color: var(--text-muted);"><i
-                                            class="fas fa-angle-right" style="margin-right: 5px; font-size: 0.8em;"></i>
-                                        Clicado</a></li>
-                                <li><a href="#" style="text-decoration: none; color: var(--text-muted);"><i
-                                            class="fas fa-angle-right" style="margin-right: 5px; font-size: 0.8em;"></i>
-                                        Colado</a></li>
-                                <li><a href="#" style="text-decoration: none; color: var(--text-muted);"><i
-                                            class="fas fa-angle-right" style="margin-right: 5px; font-size: 0.8em;"></i>
-                                        Acessórios</a></li>
-                            </ul>
-                        </li>
+            <h1>Nossos <span>Produtos</span></h1>
+            <p>Distribuição de materiais premium para obra e acabamento. Encontre pisos, forros, drywall, divisórias e muito mais.</p>
+            <div class="produtos-search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" id="product-search" placeholder="Buscar produto, categoria ou marca...">
+                <button type="button"><i class="fas fa-search"></i> Buscar</button>
+            </div>
+        </div>
+    </div>
 
-                        <!-- Piso Vinílico -->
-                        <li style="margin-bottom: 5px;">
-                            <a href="#" style="text-decoration: none; color: var(--primary-blue); font-weight: 700;">
-                                Piso Vinílico
-                            </a>
-                            <ul style="list-style: none; margin-left: 20px; line-height: 2; font-size: 0.9rem;">
-                                <li><a href="#" style="text-decoration: none; color: var(--text-muted);"><i
-                                            class="fas fa-angle-right" style="margin-right: 5px; font-size: 0.8em;"></i>
-                                        Clicado</a></li>
-                                <li><a href="#" style="text-decoration: none; color: var(--text-muted);"><i
-                                            class="fas fa-angle-right" style="margin-right: 5px; font-size: 0.8em;"></i>
-                                        Colado</a></li>
-                                <li><a href="#" style="text-decoration: none; color: var(--text-muted);"><i
-                                            class="fas fa-angle-right" style="margin-right: 5px; font-size: 0.8em;"></i>
-                                        Acessórios</a></li>
-                            </ul>
-                        </li>
+    <main style="padding: 50px 0 80px; background: #f6f8fc;">
+        <div class="container">
 
-                        <!-- Forros -->
-                        <li style="margin-bottom: 5px;">
-                            <a href="#"
-                                style="text-decoration: none; color: var(--text-dark); font-weight: 600;">Forros</a>
-                            <ul style="list-style: none; margin-left: 20px; line-height: 2; font-size: 0.9rem;">
-                                <li><a href="#" style="text-decoration: none; color: var(--text-muted);"><i
-                                            class="fas fa-angle-right" style="margin-right: 5px; font-size: 0.8em;"></i>
-                                        Perfis</a></li>
-                                <li><a href="#" style="text-decoration: none; color: var(--text-muted);"><i
-                                            class="fas fa-angle-right" style="margin-right: 5px; font-size: 0.8em;"></i>
-                                        Placas</a></li>
-                                <li><a href="#" style="text-decoration: none; color: var(--text-muted);"><i
-                                            class="fas fa-angle-right" style="margin-right: 5px; font-size: 0.8em;"></i>
-                                        Acessórios</a></li>
-                            </ul>
-                        </li>
+            <!-- Category Filter Tags -->
+            <div class="category-tags">
+                <a href="#" class="cat-tag active" data-category="all"><i class="fas fa-th-large"></i> Todos</a>
+                <a href="#" class="cat-tag" data-category="pisos"><i class="fas fa-border-all"></i> Pisos</a>
+                <a href="#" class="cat-tag" data-category="forros"><i class="fas fa-project-diagram"></i> Forros</a>
+                <a href="#" class="cat-tag" data-category="drywall"><i class="fas fa-layer-group"></i> Drywall</a>
+                <a href="#" class="cat-tag" data-category="divisorias"><i class="fas fa-columns"></i> Divisórias</a>
+                <a href="#" class="cat-tag" data-category="persianas"><i class="fas fa-bars"></i> Persianas</a>
+                <a href="#" class="cat-tag" data-category="papel-parede"><i class="fas fa-scroll"></i> Papel de Parede</a>
+                <a href="#" class="cat-tag" data-category="ferramentas"><i class="fas fa-tools"></i> Ferramentas</a>
+            </div>
 
-                        <!-- Drywall -->
-                        <li style="margin-bottom: 5px;">
-                            <a href="#"
-                                style="text-decoration: none; color: var(--text-dark); font-weight: 600;">Drywall</a>
-                            <ul style="list-style: none; margin-left: 20px; line-height: 2; font-size: 0.9rem;">
-                                <li><a href="#" style="text-decoration: none; color: var(--text-muted);"><i
-                                            class="fas fa-angle-right" style="margin-right: 5px; font-size: 0.8em;"></i>
-                                        Perfis</a></li>
-                                <li><a href="#" style="text-decoration: none; color: var(--text-muted);"><i
-                                            class="fas fa-angle-right" style="margin-right: 5px; font-size: 0.8em;"></i>
-                                        Chapas</a></li>
-                                <li><a href="#" style="text-decoration: none; color: var(--text-muted);"><i
-                                            class="fas fa-angle-right" style="margin-right: 5px; font-size: 0.8em;"></i>
-                                        Acessórios</a></li>
-                                <li><a href="#" style="text-decoration: none; color: var(--text-muted);"><i
-                                            class="fas fa-angle-right" style="margin-right: 5px; font-size: 0.8em;"></i>
-                                        Ferramentas</a></li>
-                                <li><a href="#" style="text-decoration: none; color: var(--text-muted);"><i
-                                            class="fas fa-angle-right" style="margin-right: 5px; font-size: 0.8em;"></i>
-                                        Kit Porta Pronta</a></li>
-                            </ul>
-                        </li>
-
-                        <!-- Divisórias -->
-                        <li style="margin-bottom: 5px;">
-                            <a href="#"
-                                style="text-decoration: none; color: var(--text-dark); font-weight: 600;">Divisórias</a>
-                            <ul style="list-style: none; margin-left: 20px; line-height: 2; font-size: 0.9rem;">
-                                <li><a href="#" style="text-decoration: none; color: var(--text-muted);"><i
-                                            class="fas fa-angle-right" style="margin-right: 5px; font-size: 0.8em;"></i>
-                                        Perfis</a></li>
-                                <li><a href="#" style="text-decoration: none; color: var(--text-muted);"><i
-                                            class="fas fa-angle-right" style="margin-right: 5px; font-size: 0.8em;"></i>
-                                        Painéis</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#" style="text-decoration: none; color: var(--text-muted);">Hidráulica</a></li>
-                        <li><a href="#" style="text-decoration: none; color: var(--text-muted);">Elétrica</a></li>
-                        <li><a href="#" style="text-decoration: none; color: var(--text-muted);">Ferramentas</a></li>
-                        <li><a href="#" style="text-decoration: none; color: var(--text-muted);">Papel de Parede</a>
-                        </li>
-                        <li><a href="#" style="text-decoration: none; color: var(--text-muted);">Espelhos e Box</a></li>
-                        <li><a href="#" style="text-decoration: none; color: var(--text-muted);">Persianas</a></li>
-                        <li><a href="#" style="text-decoration: none; color: var(--text-muted);">Materiais em geral</a>
-                        </li>
-                    </ul>
-                </aside>
-
-                <!-- Product Grid -->
-                <section style="flex-grow: 1;">
-                    <div
-                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px;">
-                        <h2>Distribuição de Materiais</h2>
-                        <div
-                            style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap; flex-grow: 1; justify-content: flex-end;">
-                            <div class="search-container"
-                                style="position: relative; flex: 1; min-width: 200px; max-width: 350px;">
-                                <i class="fas fa-search"
-                                    style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
-                                <input type="text" id="product-search" placeholder="Buscar materiais..."
-                                    style="padding: 10px 15px 10px 35px; border-radius: 8px; border: 1px solid var(--border-color); width: 100%; font-size: 0.9rem; outline: none; transition: border-color 0.3s; box-shadow: var(--shadow-sm);">
-                            </div>
-                            <div style="font-size: 0.85rem; color: var(--text-muted); flex-shrink: 0;"
-                                id="results-count">Mostrando todos os 6 resultados</div>
-                        </div>
+            <!-- Featured Category Blocks -->
+            <div class="featured-categories">
+                <!-- Pisos -->
+                <div class="feat-cat-card" style="--bg-color:#0f2d6b; --bg-color-end:#1a4aa8" onclick="filterCategory('pisos')">
+                    <div class="bg-overlay" style="background: linear-gradient(160deg, #0f2d6b 0%, #1a4aa8 100%);"></div>
+                    <div class="cat-content">
+                        <span class="cat-icon">🪵</span>
+                        <h3>Pisos</h3>
+                        <p>Laminados, Vinílicos e Cerâmicos</p>
                     </div>
-
-                    <div id="product-grid"
-                        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 25px;">
-                        <!-- Os produtos serão carregados via API do Bling aqui -->
-                        <div id="loading-products" style="grid-column: 1 / -1; text-align: center; padding: 50px;">
-                            <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary-blue);"></i>
-                            <p style="margin-top: 15px; color: var(--text-muted);">Buscando materiais no Bling...</p>
-                        </div>
+                </div>
+                <!-- Forros -->
+                <div class="feat-cat-card" onclick="filterCategory('forros')">
+                    <div class="bg-overlay" style="background: linear-gradient(160deg, #064e3b 0%, #059669 100%);"></div>
+                    <div class="cat-content">
+                        <span class="cat-icon">🏗️</span>
+                        <h3>Forros</h3>
+                        <p>PVC, Modular, Isofônico e mais</p>
                     </div>
-
-                    <!-- No Results Message -->
-                    <div id="no-results"
-                        style="display: none; text-align: center; padding: 40px; background: white; border-radius: 12px; border: 1px solid var(--border-color); margin-top: 20px;">
-                        <i class="fas fa-search"
-                            style="font-size: 3rem; color: var(--border-color); margin-bottom: 15px;"></i>
-                        <p style="color: var(--text-muted); font-weight: 500;">Nenhum material encontrado para sua
-                            busca. Tente outros termos.</p>
+                </div>
+                <!-- Drywall -->
+                <div class="feat-cat-card" onclick="filterCategory('drywall')">
+                    <div class="bg-overlay" style="background: linear-gradient(160deg, #7c2d12 0%, #ea580c 100%);"></div>
+                    <div class="cat-content">
+                        <span class="cat-icon">🧱</span>
+                        <h3>Drywall</h3>
+                        <p>Chapas, Perfis e Acessórios</p>
                     </div>
-
-                    <!-- Shopify/Bling Integration Message -->
-                    <div
-                        style="margin-top: 60px; padding: 30px; background: #e3f2fd; border-radius: 12px; border-left: 5px solid var(--primary-blue);">
-                        <p style="font-weight: 600; color: var(--primary-blue);"><i class="fas fa-info-circle"></i>
-                            Integração Shopify & Bling</p>
-                        <p style="font-size: 0.9rem; color: var(--text-muted);">Esta seção está preparada para receber o
-                            catálogo automático via Shopify. O estoque e a emissão fiscal são sincronizados via Bling.
-                        </p>
+                </div>
+                <!-- Divisórias -->
+                <div class="feat-cat-card" onclick="filterCategory('divisorias')">
+                    <div class="bg-overlay" style="background: linear-gradient(160deg, #4a1d96 0%, #7c3aed 100%);"></div>
+                    <div class="cat-content">
+                        <span class="cat-icon">🚪</span>
+                        <h3>Divisórias</h3>
+                        <p>Eucatex, PVC e Alumínio</p>
                     </div>
-                </section>
+                </div>
+                <!-- Persianas -->
+                <div class="feat-cat-card" onclick="filterCategory('persianas')">
+                    <div class="bg-overlay" style="background: linear-gradient(160deg, #7f1d1d 0%, #dc2626 100%);"></div>
+                    <div class="cat-content">
+                        <span class="cat-icon">🪟</span>
+                        <h3>Persianas</h3>
+                        <p>Rolo, Romana, Vertical e mais</p>
+                    </div>
+                </div>
+                <!-- Papel de Parede -->
+                <div class="feat-cat-card" onclick="filterCategory('papel-parede')">
+                    <div class="bg-overlay" style="background: linear-gradient(160deg, #1e3a5f 0%, #0891b2 100%);"></div>
+                    <div class="cat-content">
+                        <span class="cat-icon">🎨</span>
+                        <h3>Papel de Parede</h3>
+                        <p>Decorativo, Texturizado e mais</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Section -->
+            <div class="products-header">
+                <h2 id="section-title">Distribuição de Materiais</h2>
+                <span id="results-count"></span>
+            </div>
+
+            <div id="product-grid">
+                <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 2.5rem; color: var(--primary-blue);"></i>
+                    <p style="margin-top: 15px; color: var(--text-muted); font-size: 0.95rem;">Buscando materiais...</p>
+                </div>
+            </div>
+
+            <div class="no-results-box" id="no-results">
+                <i class="fas fa-search"></i>
+                <p>Nenhum produto encontrado para sua busca. Tente outros termos.</p>
             </div>
         </div>
     </main>
@@ -239,8 +482,18 @@
                 style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 60px;">
                 <div>
                     <img src="img/logo.png" alt="Artes e Decorações Logo" style="height: 60px; margin-bottom: 20px;">
-                    <p style="opacity: 0.7; font-size: 0.9rem;">Distribuidor referência em materiais para construção e acabamento em
-                        Mogi das Cruzes há mais de 4 décadas.</p>
+                    <p style="opacity: 0.7; font-size: 0.9rem;">Distribuidor referência em materiais para construção e
+                        acabamento em Mogi das Cruzes há mais de 4 décadas.</p>
+                    <div class="payment-methods" style="margin-top: 25px;">
+                        <img src="img/pagamentos/amex.svg" alt="Amex" class="payment-icon bg-white" onerror="this.style.display='none'">
+                        <img src="img/pagamentos/bndes.png" alt="BNDES" class="payment-icon bg-white" onerror="this.style.display='none'">
+                        <img src="img/pagamentos/diners.png" alt="Diners Club" class="payment-icon bg-white" onerror="this.style.display='none'">
+                        <img src="img/pagamentos/elo.png" alt="Elo" class="payment-icon" onerror="this.style.display='none'">
+                        <img src="img/pagamentos/maestro.svg" alt="Maestro" class="payment-icon bg-white" onerror="this.style.display='none'">
+                        <img src="img/pagamentos/mastercard.svg" alt="Mastercard" class="payment-icon" onerror="this.style.display='none'">
+                        <img src="img/pagamentos/visa.png" alt="Visa" class="payment-icon bg-white" onerror="this.style.display='none'">
+                        <img src="img/pagamentos/hipercard.png" alt="Hipercard" class="payment-icon" onerror="this.style.display='none'">
+                    </div>
                 </div>
                 <div>
                     <h4 style="margin-bottom: 25px;">Nossos Produtos</h4>
@@ -248,8 +501,7 @@
                         <li><a href="#" style="color: white; text-decoration: none;">Pisos Laminados</a></li>
                         <li><a href="#" style="color: white; text-decoration: none;">Drywall</a></li>
                         <li><a href="servicos.html" style="color: white; text-decoration: none;">Forros (PVC e Modular)</a></li>
-                        <li><a href="#" style="color: white; text-decoration: none;">Persianas e Papel de Parede</a>
-                        </li>
+                        <li><a href="#" style="color: white; text-decoration: none;">Persianas e Papel de Parede</a></li>
                     </ul>
                 </div>
                 <div>
@@ -298,94 +550,72 @@
     <a href="https://wa.me/5511999201062" class="whatsapp-float" target="_blank">
         <img src="img/whatsapp.svg" alt="WhatsApp">
     </a>
+
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Sidebar Mobile Toggle
-            const toggleCatBtn = document.getElementById("toggle-categorias");
-            const sidebarCat = document.getElementById("sidebar-categorias");
-            const sidebarBackdrop = document.getElementById("sidebar-backdrop");
-
-            if (toggleCatBtn && sidebarCat) {
-                toggleCatBtn.addEventListener("click", function () {
-                    sidebarCat.classList.toggle("active");
-                    if (sidebarBackdrop) sidebarBackdrop.classList.toggle("active");
-                });
-
-                if (sidebarBackdrop) {
-                    sidebarBackdrop.addEventListener("click", function () {
-                        sidebarCat.classList.remove("active");
-                        sidebarBackdrop.classList.remove("active");
-                    });
-                }
-            }
-
-            // Category Filter Logic
-            const categoryItems = document.querySelectorAll(".category-item");
-            if (categoryItems.length > 0) {
-                categoryItems.forEach(item => {
-                    item.addEventListener("click", function (e) {
-                        e.preventDefault();
-
-                        // Remover active de todos
-                        categoryItems.forEach(i => i.classList.remove('active'));
-                        // Adicionar no clicado
-                        this.classList.add('active');
-
-                        // Sincronizar sub-itens se necessário
-                        const id = this.dataset.categoryId;
-                        console.log("Filtrando por categoria:", id);
-
-                        // Chamar o recarregamento dos produtos (definido no bling.js)
-                        if (typeof loadProducts === 'function') {
-                            loadProducts();
-                        }
-
-                        // Fechar menu mobile se estiver aberto
-                        if (sidebarCat) {
-                            sidebarCat.classList.remove("active");
-                            if (sidebarBackdrop) sidebarBackdrop.classList.remove("active");
-                        }
-                    });
-                });
-            }
-
-            // Product Search Logic
-            const searchInput = document.getElementById("product-search");
-            const productGrid = document.getElementById("product-grid");
-            const products = document.querySelectorAll(".product-card");
-            const resultsCount = document.getElementById("results-count");
-            const noResults = document.getElementById("no-results");
-
-            if (searchInput) {
-                searchInput.addEventListener("input", function () {
-                    const query = searchInput.value.toLowerCase().trim();
-                    let visibleCount = 0;
-
-                    products.forEach(product => {
-                        const productName = product.getAttribute("data-name").toLowerCase();
-                        if (productName.includes(query)) {
-                            product.style.display = "block";
-                            visibleCount++;
-                        } else {
-                            product.style.display = "none";
-                        }
-                    });
-
-                    // Update count and no-results message
-                    if (resultsCount) {
-                        if (query === "") {
-                            resultsCount.textContent = `Mostrando todos os ${products.length} resultados`;
-                        } else {
-                            resultsCount.textContent = `Encontrado(s) ${visibleCount} resultado(s) para "${query}"`;
-                        }
-                    }
-
-                    if (noResults) {
-                        noResults.style.display = visibleCount === 0 ? "block" : "none";
-                    }
-                });
-            }
+        // ===== CATEGORY FILTER TAGS =====
+        const catTags = document.querySelectorAll('.cat-tag');
+        catTags.forEach(tag => {
+            tag.addEventListener('click', function (e) {
+                e.preventDefault();
+                catTags.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                filterCategory(this.dataset.category);
+            });
         });
+
+        function filterCategory(category) {
+            // Update active tag
+            catTags.forEach(t => {
+                t.classList.toggle('active', t.dataset.category === category);
+            });
+
+            const cards = document.querySelectorAll('.product-card');
+            let count = 0;
+            const sectionTitle = document.getElementById('section-title');
+            const categoryNames = {
+                'all': 'Distribuição de Materiais',
+                'pisos': 'Pisos',
+                'forros': 'Forros',
+                'drywall': 'Drywall',
+                'divisorias': 'Divisórias',
+                'persianas': 'Persianas',
+                'papel-parede': 'Papel de Parede',
+                'ferramentas': 'Ferramentas'
+            };
+            if (sectionTitle) sectionTitle.textContent = categoryNames[category] || 'Produtos';
+
+            cards.forEach(card => {
+                const cardCat = card.dataset.category || '';
+                const show = category === 'all' || cardCat === category;
+                card.style.display = show ? 'block' : 'none';
+                if (show) count++;
+            });
+
+            const rc = document.getElementById('results-count');
+            if (rc) rc.textContent = count + ' produto(s)';
+
+            // Show no-results if empty
+            const noResults = document.getElementById('no-results');
+            if (noResults) noResults.style.display = count === 0 ? 'block' : 'none';
+        }
+
+        // ===== SEARCH =====
+        const searchInput = document.getElementById('product-search');
+        if (searchInput) {
+            searchInput.addEventListener('input', function () {
+                const query = this.value.toLowerCase().trim();
+                const cards = document.querySelectorAll('.product-card');
+                let count = 0;
+                cards.forEach(card => {
+                    const name = (card.dataset.name || '').toLowerCase();
+                    const show = !query || name.includes(query);
+                    card.style.display = show ? 'block' : 'none';
+                    if (show) count++;
+                });
+                const rc = document.getElementById('results-count');
+                if (rc) rc.textContent = query ? count + ' resultado(s) para "' + query + '"' : count + ' produto(s)';
+            });
+        }
     </script>
 
     <script src="js/main.js"></script>

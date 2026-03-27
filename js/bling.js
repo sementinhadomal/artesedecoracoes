@@ -61,14 +61,11 @@ async function loadProducts() {
 function renderProducts(products) {
     const grid = document.getElementById("product-grid");
     if (!grid) return;
-    grid.innerHTML = ""; // Limpa o loader
+    grid.innerHTML = "";
 
-    // Determinar se há um filtro de categoria ativo no menu da loja
-    const activeCategory = document.querySelector('.category-item.active')?.dataset.categoryId;
+    const activeCategory = document.querySelector('.cat-tag.active')?.dataset.category || 'all';
 
     let filteredProducts = products;
-
-    // Se estivermos usando o sistema de categorias do dashboard
     if (activeCategory && activeCategory !== 'all') {
         filteredProducts = products.filter(p => {
             const item = p.produto || p;
@@ -78,48 +75,45 @@ function renderProducts(products) {
 
     if (filteredProducts.length === 0) {
         grid.innerHTML = `
-            <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #94a3b8;">
-                <i class="fas fa-search fa-2x" style="margin-bottom: 10px;"></i>
+            <div style="grid-column:1/-1; text-align:center; padding:60px 20px; color:#94a3b8;">
+                <i class="fas fa-search fa-2x" style="margin-bottom:12px;"></i>
                 <p>Nenhum produto encontrado nesta categoria no momento.</p>
             </div>
         `;
         return;
     }
 
+    const rc = document.getElementById('results-count');
+    if (rc) rc.textContent = filteredProducts.length + ' produto(s)';
+
     filteredProducts.forEach(p => {
         const item = p.produto || p;
         const card = document.createElement("div");
         card.className = "product-card";
-        card.setAttribute("data-name", item.nome || item.descricao);
-        card.style.cssText = "background: white; border-radius: 12px; overflow: hidden; border: 1px solid #eee; transition: 0.3s; cursor: pointer;";
+        card.setAttribute("data-name", item.nome || item.descricao || '');
+        card.setAttribute("data-category", item.targetCategory || 'all');
 
-        // Redirecionar para página individual no clique do card
         card.onclick = () => window.location.href = `produto.html?sku=${item.sku || item.codigo}`;
 
-        const preco = parseFloat(item.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-        const imagem = item.imagem || item.urlImagem || 'https://via.placeholder.com/400x300?text=Sem+Imagem';
+        const precoNum = parseFloat(item.preco);
+        const preco = precoNum > 0 ? precoNum.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : 'Consulte-nos';
+        const imagem = item.imagem || item.urlImagem || 'https://placehold.co/400x300/e9edf4/94a3b8?text=Sem+Imagem';
+        const nome = item.nome || item.descricao || 'Produto';
+        const sku = item.sku || item.codigo || '';
 
         card.innerHTML = `
-            <div style="height: 200px; background: #f8f9fa; position: relative; overflow: hidden;">
-                <img src="${imagem}" alt="${item.nome || item.descricao}" style="width:100%; height:100%; object-fit:cover; transition: 0.5s;">
+            <div class="product-card-img">
+                <img src="${imagem}" alt="${nome}" loading="lazy">
             </div>
-            <div style="padding: 20px;">
-                <h4 style="margin-bottom: 10px; font-size: 1rem; font-weight: 600; min-height: 2.4em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; color: #334155;">
-                    ${item.nome || item.descricao}
-                </h4>
-                <div style="color: var(--primary-blue); font-weight: 700; font-size: 1.25rem; margin-bottom: 15px;">
-                    ${preco}
-                </div>
-                <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 10px;">SKU: ${item.sku || item.codigo}</div>
-                <button class="btn btn-primary" style="width: 100%; font-size: 0.85rem; padding: 10px; background: #3b82f6; border: none; border-radius: 6px; color: white;">
-                    Ver Detalhes
+            <div class="product-card-body">
+                <h4>${nome}</h4>
+                <div class="product-card-price">${preco}</div>
+                ${sku ? `<div class="product-card-sku">SKU: ${sku}</div>` : ''}
+                <button class="product-card-btn">
+                    <i class="fas fa-eye" style="margin-right:6px;"></i> Ver Detalhes
                 </button>
             </div>
         `;
-
-        // Efeito de zoom na imagem ao passar o mouse no card
-        card.onmouseover = () => card.querySelector('img').style.transform = 'scale(1.1)';
-        card.onmouseout = () => card.querySelector('img').style.transform = 'scale(1)';
 
         grid.appendChild(card);
     });
