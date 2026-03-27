@@ -882,11 +882,9 @@ select:focus {
 
 /* ===== BRANDS MARQUEE ANIMATION ===== */
 .hero-brands-marquee {
-        background-color: #051426; /* Dark premium background matching footer */
+        background-color: transparent;
         overflow: hidden;
         width: 100%;
-        border-top: 2px solid var(--accent-yellow); /* Optional accent line */
-        border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
 .hero-brands-marquee .brands-slider-container {
