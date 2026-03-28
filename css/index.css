@@ -1144,7 +1144,7 @@ select:focus {
         }
 
         /* On mobile: hide the original buttons (above video), show the ones below video */
-        .showroom-content > .showroom-actions {
+        .showroom-text > .showroom-actions {
                 display: none;
         }
 
